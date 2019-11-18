@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>通道管理</title>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!--CUSTOM BASIC STYLES-->
+    <link href="assets/css/basic.css" rel="stylesheet" />
+    <!--CUSTOM MAIN STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/jquery.sPage.css" />
+    <link rel="stylesheet" href="assets/css/index.css" />
+</head>
+
+<body>
+    <div id="page-wrapper">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-2 align-right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pgwayModalDialog"
+                        data-type="addWay">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="pgWayList" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>名称</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="Spage">
+                        <div id="myPage" class="demo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+    <!-- /. myModalDialog -->
+    <div class="modal fade bs-example-modal-sm" id="pgwayModalDialog" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">新增通道</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="alert-contents">
+                            <div class="form-group form-inline alert-modal-sm">
+                                <label for="recipient-name" class="control-label">通道名称&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" id="paWayName" name="paWayName">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="submitPgway()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 警告提示模态框 -->
+    <div class="modal fade bs-example-modal-sm" id="wangModal" aria-hidden="true" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>提示</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="tipText">确定要关闭警告框信息？</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/jquery.sPage.js"></script>
+    <script src="assets/js/commont.js"></script>
+    <script type="text/javascript">
+        // 模态框
+        ModalDialog('pgwayModalDialog');
+        ModalDialog('wangModal');
+
+
+        // 查询通道分类列表
+        findAllpaway();
+        function findAllpaway() {
+            // console.log("查询分页通道");
+            $.ajax({
+                type: "get",
+                url: serverIp + "/channel/page",
+                data: '',
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    // console.log("查询结果")
+                    // console.log(res);
+                    if (res.code === 0) {
+                        //console.log(res.data.records);
+                        // 调用分页插件
+                        $("#myPage").sPage({
+                            page: 1,//当前页码
+                            total: res.data.total,//数据总条数,后台返回
+                            backFun: function (page) {
+                                // console.log("点击分页按钮回调函数，返回当前页码");
+                                //点击分页按钮回调函数，返回当前页码
+                                $('#pgWayList tbody').empty();
+                                var pgWayList = res.data.records;
+                                // console.log(pgWayList);
+                                for (let i = 0; i < pgWayList.length; i++) {
+                                    $('#pgWayList tbody').append(`
+                                    <tr>
+                                        <td>${i + 1}</td>
+                                        <td>${pgWayList[i].name}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-info" data-id="${pgWayList[i].id}" data-type="edtWay" data-toggle="modal" data-target="#pgwayModalDialog">编辑</button>
+                                            <button type="button" class="btn btn-danger" id="dltWay${pgWayList[i].id}">删除</button>
+                                        </td>
+                                    </tr>`);
+                                }
+                            }
+                        });
+                    }
+                }
+            })
+        }
+
+        let type = '';
+        let id = '';
+        // 添加、修改通道
+        $('#pgwayModalDialog').on('show.bs.modal', function (e) {
+            type = $(e.relatedTarget).data('type');
+            if (type == "addWay") {
+                $('#paWayName').val('');
+            } else if (type == "edtWay") {
+                id = $(e.relatedTarget).data('id');
+                findPgway(id);
+            }
+        })
+
+        // 查询单个通道
+        function findPgway(id) {
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/channel/get/" + id,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code === 0) {
+                        $('#paWayName').val(res.data.name);
+                    }
+                }
+            })
+        }
+
+        // 新增、修改通道
+        function submitPgway() {
+            var d = [];
+            var t = $('form').serializeArray();
+            $.each(t, function () {
+                d[this.name] = this.value;
+            })
+            if (d.paWayName == '') {
+                $('.tipText').text("请填写通道名称");
+                $('#wangModal').modal('show');
+                return;
+            }
+            if (type == "addWay") {
+                // console.log("新增");
+                $.ajax({
+                    type: "post",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/channel/add",
+                    data: JSON.stringify({
+                        name: d.paWayName
+                    }),
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("添加通道成功");
+                            $('#pgwayModalDialog').modal('hide');
+                            findAllpaway();
+                        }
+                        if (res.code === -1) {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            } else if (type == "edtWay") {
+                // console.log("修改");
+                $.ajax({
+                    type: "post",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/channel/update",
+                    data: JSON.stringify({
+                        id: id,
+                        name: d.paWayName
+                    }),
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("修改通道成功");
+                            $('#pgwayModalDialog').modal('hide');
+                            findAllpaway();
+                        }
+                        if (res.code === -1) {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            }
+        }
+
+
+        // 查询单个、删除通道
+        $('#pgWayList tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 6);
+            var id = str.slice(6);
+            if (idName == "dltWay") {
+                //删除通道
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/channel/delete",
+                    data: { "id": id },
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.code === 0) {
+                            // console.log("删除成功");
+                            findAllpaway();
+                        }
+                        if (res.code === -1) {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

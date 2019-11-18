@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>素材管理</title>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!--CUSTOM BASIC STYLES-->
+    <link href="assets/css/basic.css" rel="stylesheet" />
+    <!--CUSTOM MAIN STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <!-- <link rel="stylesheet" href="assets/css/pagination.css" /> -->
+    <link rel="stylesheet" href="assets/css/jquery.sPage.css" />
+    <link rel="stylesheet" href="assets/css/index.css" />
+</head>
+
+<body>
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row" style="margin-top: 0;">
+                        <div class="col-md-6 col-md-offset-3">
+                            <select class="form-control" name="Allclassify" id="Allclassify"
+                                onmousedown="if(this.options.length>5){this.size=5}" onblur="this.size=0"
+                                onchange="this.size=0" style="position:absolute;z-index:1;">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入你要搜索的素材名称" id="searchInput">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-default" type="button" onclick="searchMaterial()">搜索</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalDialog"
+                        data-type="addMaterial">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="materialTable" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>素材编号</th>
+                                            <th>素材名称</th>
+                                            <th>分类</th>
+                                            <th>分类ID</th>
+                                            <th>图片</th>
+                                            <th>售价</th>
+                                            <th>适配通道</th>
+                                            <th>下载次数</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="Spage">
+                        <div id="myPage" class="demo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+    <!-- </div> -->
+    <!-- /. WRAPPER  -->
+    <!-- /. myModalDialog -->
+    <div class="modal fade" id="myModalDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">新增素材</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="alert-content">
+                            <div class="alert-content-top">
+                                <div class="alert-left">
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">素材名称&nbsp;&nbsp;</label>
+                                        <input type="text" class="form-control" name="materialName" id="materialName">
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">所属分类&nbsp;&nbsp;</label>
+                                        <select class="form-control" name="classify" id="classify">
+                                        </select>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">适配通道&nbsp;&nbsp;</label>
+                                        <select class="form-control" name="pgway" id="pgway">
+                                        </select>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">素材售价&nbsp;&nbsp;</label>
+                                        <input type="number" class="form-control" name="price" id="price">
+                                        <label for="recipient-name" class="control-label">&nbsp;&nbsp;元</label>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">素材编号&nbsp;&nbsp;</label>
+                                        <input type="number" class="form-control" name="nomber" id="nomber">
+                                    </div>
+                                    <!-- <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">素材路径&nbsp;&nbsp;</label>
+                                        <input type="text" class="form-control" name="materialUrl" id="materialUrl">
+                                    </div> -->
+                                </div>
+                                <div class="alert-right">
+                                    <form id="prizeform" enctype="multipart/form-data">
+                                        <div id="imgPreview">
+                                            <div id="prompt3">
+                                                <div id="imgSpan">
+                                                    <img src="" id="img3" />
+                                                    <img src="/images/upload.jpg" class="img2" />
+                                                </div>
+                                                <input type="file" id="file" class="filepath"
+                                                    onchange="uploadMaterial(this)"
+                                                    accept="image/jpg,image/jpeg,image/png,image/PNG">
+                                            </div>
+                                        </div>
+                                        <div><span>点击上传预览图片</span></div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- <form id="videoform" enctype="multipart/form-data">
+                                <div class="form-group form-inline">
+                                    <label for="recipient-name" class="control-label">
+                                        <button type="button" class="btn btn-success" onclick="uploadVideo()">上传素材</button>
+                                    </label>
+                                    <input type="text" class="form-control" id="videoUrl" readonly="readonly">
+                                    <input type="file" id="videofile" multiple="multiple"/>
+                                </div>
+                            </form> -->
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="submitMaterial()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModalDialog2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">编辑素材</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="alert-content">
+                            <div class="alert-content-top">
+                                <div class="alert-left">
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">素材名称&nbsp;&nbsp;</label>
+                                        <input type="text" class="form-control" name="materialName2" id="materialName2">
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">所属分类&nbsp;&nbsp;</label>
+                                        <select class="form-control" name="classify2" id="classify2">
+                                        </select>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">适配通道&nbsp;&nbsp;</label>
+                                        <select class="form-control" name="pgway2" id="pgway2">
+                                        </select>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">素材售价&nbsp;&nbsp;</label>
+                                        <input type="number" class="form-control" name="price2" id="price2">
+                                        <label for="recipient-name" class="control-label">&nbsp;&nbsp;元</label>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">素材编号&nbsp;&nbsp;</label>
+                                        <input type="number" class="form-control" name="nomber2" id="nomber2">
+                                    </div>
+                                    <!-- <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">素材路径&nbsp;&nbsp;</label>
+                                        <input type="text" class="form-control" name="materialUrl" id="materialUrl">
+                                    </div> -->
+                                </div>
+                                <div class="alert-right">
+                                    <form id="prizeform" enctype="multipart/form-data">
+                                        <div id="imgPreview">
+                                            <div id="prompt3">
+                                                <div id="imgSpan">
+                                                    <img src="" id="previewImg" />
+                                                    <img src="/images/upload.jpg" class="img2" />
+                                                </div>
+                                                <input type="file" id="file2" class="filepath"
+                                                    onchange="uploadMaterial2(this)"
+                                                    accept="image/jpg,image/jpeg,image/png,image/PNG">
+                                            </div>
+                                        </div>
+                                        <div><span>点击上传预览图片</span></div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- <form id="videoform" enctype="multipart/form-data">
+                                <div class="form-group form-inline">
+                                    <label for="recipient-name" class="control-label">
+                                        <button type="button" class="btn btn-success" onclick="uploadVideo()">上传素材</button>
+                                    </label>
+                                    <input type="text" class="form-control" id="videoUrl" readonly="readonly">
+                                    <input type="file" id="videofile" multiple="multiple"/>
+                                </div>
+                            </form> -->
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="submitMaterial2()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 警告提示模态框 -->
+    <div class="modal fade bs-example-modal-sm" id="wangModal" aria-hidden="true" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>提示</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="tipText">确定要关闭警告框信息？</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/jquery.sPage.js"></script>
+    <script src="assets/js/commont.js"></script>
+    <script type="text/javascript">
+
+        let type = '';
+        let id = '';
+
+        // 分类6、通道4
+        var classifyList = findAllList(6);
+        var pgWayList = findAllList(4);
+
+        // 查询下拉选项并渲染
+        function findAllOptions() {
+            // console.log("分类下拉")
+            // console.log(classifyList); console.log(pgWayList);
+            $('#classify').empty();
+            $('#classify').append(`<option class="form-control"  value='' selected>请选择分类</option></option>`);
+            for (let i = 0; i < classifyList.length; i++) {
+                $('#classify').append(`
+                <option class="form-control" value=${classifyList[i].id}>${classifyList[i].name}</option>
+                `);
+            }
+            $('#pgway').empty();
+            $('#pgway').append(`<option class="form-control"  value='' selected>请选择通道</option></option>`);
+            for (let i = 0; i < pgWayList.length; i++) {
+                $('#pgway').append(`
+                <option class="form-control" value=${pgWayList[i].id}>${pgWayList[i].name}</option>
+                `);
+            }
+            $('#classify2').empty();
+            $('#classify2').append(`<option class="form-control"  value='' selected>请选择分类</option></option>`);
+            for (let i = 0; i < classifyList.length; i++) {
+                $('#classify2').append(`
+                <option class="form-control" value=${classifyList[i].id}>${classifyList[i].name}</option>
+                `);
+            }
+            $('#pgway2').empty();
+            $('#pgway2').append(`<option class="form-control"  value='' selected>请选择通道</option></option>`);
+            for (let i = 0; i < pgWayList.length; i++) {
+                $('#pgway2').append(`
+                <option class="form-control" value=${pgWayList[i].id}>${pgWayList[i].name}</option>
+                `);
+            }
+        }
+
+        // 搜索分类下拉选项
+        searchAllclassify();
+        function searchAllclassify() {
+            $('#Allclassify').empty();
+            $('#Allclassify').append(`<option class="form-control"  value='' selected>请选择分类</option></option>`);
+            for (let i = 0; i < classifyList.length; i++) {
+                $('#Allclassify').append(`
+                <option class="form-control" value=${classifyList[i].id}>${classifyList[i].name}</option>
+                `);
+            }
+        }
+
+        // 搜索内容
+        let data = '';
+        getPageMaterial(data);
+
+        function searchMaterial() {
+            var Allclassify = $("#Allclassify option:selected").val();
+            var searchContent = $('#searchInput').val();
+            // console.log(Allclassify);
+            // console.log(searchContent);
+            if (Allclassify == 0 && searchContent == '') {
+                data = '';
+                // 搜索全部
+            } else if (Allclassify != 0 && searchContent == '') {
+                data = { "classify": Allclassify };
+                // 搜索分类
+            } else if (Allclassify == 0 && searchContent != '') {
+                data = { "name": searchContent };
+                // 搜索素材名称
+            } else if (Allclassify != 0 && searchContent != '') {
+                data = { "classify": Allclassify, "name": searchContent };
+                // 搜索分类和搜索素材名称
+            }
+            getPageMaterial(data);
+        }
+
+        // 获取分页素材
+        function getPageMaterial(data) {
+            // console.log(data);
+            // 获取所有素材
+            $.ajax({
+                type: "get",
+                url: serverIp + "/material/page",
+                data: data,
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    //console.log(res);
+                    // 调用分页插件
+                    $("#myPage").sPage({
+                        page: 1,//当前页码
+                        total: res.data.total,//数据总条数,后台返回
+                        backFun: function (page) {
+                            // console.log("点击分页按钮回调函数，返回当前页码");
+                            if (data == '') {
+                                data = {};
+                            }
+                            data.current = page;
+                            // console.log(data.current);
+                            //点击分页按钮回调函数，返回当前页码
+                            $.ajax({
+                                type: "get",
+                                url: serverIp + "/material/page",
+                                data: data,
+                                dataType: "json",
+                                contentType: "application/json;charset=UTF-8",
+                                success: function (res) {
+                                    // console.log(res);
+                                    if (res.code === 0) {
+                                        console.log(res.data.records);
+                                        $('#materialTable tbody').empty();
+                                        var materialList = res.data.records;
+                                        // console.log(materialList);
+                                        for (let i = 0; i < materialList.length; i++) {
+                                            $('#materialTable tbody').append(`
+                                            <tr>
+                                                <td>${materialList[i].no}</td>
+                                                <td>${materialList[i].name}</td>
+                                                <td>${materialList[i].classify}</td>
+                                                <td>${materialList[i].classifyId}</td>
+                                                <td>
+                                                    <img src="${materialList[i].url}" alt="..." class="img-thumbnail">
+                                                </td>
+                                                <td>${materialList[i].price}</td>
+                                                <td>${materialList[i].channel}</td>
+                                                <td>${materialList[i].download}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info" data-id="${materialList[i].id}" data-type="updateMaterial" data-toggle="modal" data-target="#myModalDialog2">编辑</button>
+                                                    <button type="button" class="btn btn-danger" id="dltMaterial${materialList[i].id}">删除</button>
+                                                </td>
+                                            </tr>`);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        /**
+         * 添加素材，先单独上传素材图片
+         * 再添加素材
+        */
+        function uploadMaterial() {
+            let f = document.getElementById('file').files[0];
+            // console.log(f);
+            let imgSize = f.size;
+            if (imgSize > 1024 * 1024 * 10) {
+                $('.tipText').text("上传图片不能超过10M");
+                $('#wangModal').modal('show');
+                return;
+            } else {
+                let formdata = new FormData();
+                if (f != "") {
+                    formdata.append('file', f);
+                }
+                $.ajax({
+                    type: "post",
+                    url: serverIp + "/material/upload",
+                    data: formdata,
+                    dataType: "json",
+                    cache: false,
+                    contentType: false,//默认: "application/x-www-form-urlencoded" 
+                    processData: false,//设置 processData 选项为 false，防止自动转换数据格式 
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                           //console.log("上传素材成功");
+                            document.getElementById('img3').src = res.data;
+                            $("#imgSpan .img2").css("display", "none");
+                            $("#img3").css("display", "block");
+                        } else {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            }
+        }
+
+        function uploadMaterial2() {
+            let f = document.getElementById('file2').files[0];
+            // console.log(f);
+            let imgSize = f.size;
+            if (imgSize > 1024 * 1024 * 10) {
+                $('.tipText').text("上传图片不能超过10M");
+                $('#wangModal').modal('show');
+                return;
+            } else {
+                let formdata = new FormData();
+                if (f != "") {
+                    formdata.append('file', f);
+                }
+                $.ajax({
+                    type: "post",
+                    url: serverIp + "/material/upload",
+                    data: formdata,
+                    dataType: "json",
+                    cache: false,
+                    contentType: false,//默认: "application/x-www-form-urlencoded" 
+                    processData: false,//设置 processData 选项为 false，防止自动转换数据格式 
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                           //console.log("上传素材成功");
+                            document.getElementById('previewImg').src = res.data;
+                            $("#imgSpan .img2").css("display", "none");
+                            $('#previewImg').css("dispalay","block");
+                        } else {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            }
+        }
+
+        function submitMaterial() {
+            var d = {};
+            var t = $('form').serializeArray();
+            var picUrl = $('#img3').attr('src');
+            //console.log(picUrl);
+            t.push({ "name": "url", "value": picUrl });
+            $.each(t, function () {
+                d[this.name] = this.value;
+            });
+            //console.log(d);
+            for (let key in d) {
+                if (key == "url" && d[key] == '') {
+                    $('.tipText').text("请上传素材图片");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "materialName" && d[key] == '') {
+                    $('.tipText').text("请输入素材名称");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "classify" && d[key] == '') {
+                    $('.tipText').text("请选择所属分类");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "pgway" && d[key] == '') {
+                    $('.tipText').text("请选择适配通道");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "price" && d[key] == '') {
+                    $('.tipText').text("请输入素材售价");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "nomber" && d[key] == '') {
+                    $('.tipText').text("请输入素材编号");
+                    $('#wangModal').modal('show');
+                    return;
+                } 
+            }
+            if (type == "addMaterial") {
+                $.ajax({
+                    type: "post",
+                    url: serverIp + "/material/add",
+                    data: JSON.stringify({
+                        channel: d.pgway,
+                        classify: d.classify,
+                        name: d.materialName,
+                        no: d.nomber,
+                        price: d.price,
+                        url: d.url
+                    }),
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    async: false,
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("添加素材成功");
+                            $('#myModalDialog').modal('hide');
+                            getPageMaterial('');
+                            // $("#img3").css("display", "none");
+                            // $("#img2").css("display", "none");
+                        } else {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                });
+            }
+        }
+
+        function submitMaterial2() {
+            var d = {};
+            var t = $('form').serializeArray();
+            var picUrl = $('#previewImg').attr('src');
+            //console.log(picUrl);
+            t.push({ "name": "url", "value": picUrl });
+            $.each(t, function () {
+                d[this.name] = this.value;
+            });
+            //console.log(d);
+            for (let key in d) {
+                if (key == "url" && d[key] == '') {
+                    $('.tipText').text("请上传素材图片");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "materialName2" && d[key] == '') {
+                    $('.tipText').text("请输入素材名称");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "classify2" && d[key] == '') {
+                    $('.tipText').text("请选择所属分类");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "pgway2" && d[key] == '') {
+                    $('.tipText').text("请选择适配通道");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "price2" && d[key] == '') {
+                    $('.tipText').text("请输入素材售价");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "nomber2" && d[key] == '') {
+                    $('.tipText').text("请输入素材编号");
+                    $('#wangModal').modal('show');
+                    return;
+                } 
+            }
+            if (type == "updateMaterial") {
+                // console.log(d);
+                $.ajax({
+                    type: "post",
+                    url: serverIp + "/material/update",
+                    data: JSON.stringify({
+                        channel: d.pgway2,
+                        classify: d.classify2,
+                        id: id,
+                        name: d.materialName2,
+                        no: d.nomber2,
+                        price: d.price2,
+                        url: d.url
+                    }),
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    async: false,
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("修改素材成功");
+                            $('#myModalDialog2').modal('hide');
+                            getPageMaterial('');
+                            // document.getElementById('img3').src = data.data;
+                            // $("#img3").css("display", "block");
+                        } else {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                });
+            }
+        }
+        // 删除素材
+        $('#materialTable tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 11);
+            var ID = str.slice(11);
+            if (idName == "dltMaterial") {
+                //删除素材
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/material/delete",
+                    data: { "id": ID },
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log("删除成功");
+                        getPageMaterial('');
+                    }
+                })
+            }
+        })
+
+        // 查询单个素材
+        function findMaterial(id) {
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/material/get/" + id,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    console.log("查询单个素材");
+                    console.log(res);
+                    if (res.code === 0) {
+                        $('#materialName2').val(res.data.name);
+                        // $('#classify2').attr('value',res.data.classifyId);
+                        $("#classify2 option[value='"+res.data.classifyId+"']").attr("selected", "selected");
+                        $('#pgway2').val(res.data.channel);
+                        $('#price2').val(res.data.price);
+                        $('#nomber2').val(res.data.no);
+                        $('.img2').css("display", "none");
+                        $('#previewImg')[0].src = res.data.url;
+                        $('#previewImg').css("display", "block");
+                    }
+                }
+            })
+        }
+        // 添加素材模态框
+        $('#myModalDialog').on('show.bs.modal', function (e) {
+            findAllOptions();
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#myModalDialog').css("zIndex", zIndex + 1);
+            type = $(e.relatedTarget).data("type");
+            if (type == "addMaterial") {
+                // var t = $('form').serializeArray();
+                // $.each(t, function () {
+                //     $('.' + this.name).val('');
+                // });
+                $('#materialName').val('');
+                $('#classify').val('');
+                $('#pgway').val('');
+                $('#price').val('');
+                $('#nomber').val('');
+                $('.img2').css("display", "block");
+                $('#img3')[0].src = '';
+                $('#img3').css("display", "none");
+            }
+        });
+
+        // 编辑素材模态框
+        $('#myModalDialog2').on('show.bs.modal', function (e) {
+            findAllOptions();
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#myModalDialog2').css("zIndex", zIndex + 1);
+            type = $(e.relatedTarget).data("type");
+            if (type == "updateMaterial") {
+                id = $(e.relatedTarget).data("id");
+                findMaterial(id);
+            }
+        });
+
+
+        // 模态框居中
+        ModalDialog('myModalDialog');
+        ModalDialog('myModalDialog2');
+        ModalDialog('wangModal');
+
+        // 提示模态框
+        $('#wangModal').on('shown.bs.modal', function (e) {
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#wangModal').css("zIndex", zIndex + 1);
+        });
+    </script>
+</body>
+
+</html>

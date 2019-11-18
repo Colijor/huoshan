@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>代理商管理</title>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!--CUSTOM BASIC STYLES-->
+    <link href="assets/css/basic.css" rel="stylesheet" />
+    <!--CUSTOM MAIN STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/jquery.sPage.css" />
+    <link rel="stylesheet" href="assets/css/index.css" />
+</head>
+
+<body>
+    <div id="page-wrapper">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-4 align-right">
+                    <select class="form-control" name="AgencyLevelList" id="AgencyLevelList"
+                        onmousedown="if(this.options.length>5){this.size=5}" onblur="this.size=0" onchange="this.size=0;searchContent()"
+                        style="position:absolute;z-index:1;">
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入你要搜索的代理商手机号" id="searchInput">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="searchContent()">搜索</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agentModalDialog"
+                        data-type="addAgent">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="agentTable" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>姓名</th>
+                                            <th>联系方式</th>
+                                            <th>公司信息</th>
+                                            <th>地区</th>
+                                            <th>级别</th>
+                                            <th>有效期</th>
+                                            <th>保证金(元)</th>
+                                            <th>负责人</th>
+                                            <!-- <th>折扣(%)</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="Spage">
+                        <div id="myPage" class="demo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+    <!-- /. agentModalDialog -->
+    <div class="modal fade" id="agentModalDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">新增代理商</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="alert-contents">
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">代理商名称&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" name="name" id="name">
+                            </div>
+                            <div class="form-group form-inline password">
+                                <label
+                                    class="control-label">密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="password" class="form-control" name="pwd1" id="pwd1" minlength="3"
+                                    maxlength="12" onkeyup="value=value.replace(/[\W]/g,'')">
+                            </div>
+                            <div class="form-group form-inline password">
+                                <label class="control-label">确认密码&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="password" class="form-control" name="pwd2" id="pwd2" minlength="3"
+                                    maxlength="12" onkeyup="value=value.replace(/[\W]/g,'')" onchange="checkPassword()">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">联系号码&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" name="phone" id="phone" onchange="checkPhone()">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">公司信息&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" name="company" id="company">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name"
+                                    class="control-label">地区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <select class="form-control classify" name="area" id="area">
+                                </select>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name"
+                                    class="control-label">级别&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <select class="form-control classify" name="agencyLevel" id="agencyLevel">
+                                </select>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">有效期&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" name="deadline" id="deadline">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name"
+                                    class="control-label">保证金&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" name="insurance" id="insurance">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name"
+                                    class="control-label">负责人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" name="chairman" id="chairman">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAgent()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 警告提示模态框 -->
+    <div class="modal fade bs-example-modal-sm" id="wangModal" aria-hidden="true" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>提示</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="tipText">确定要关闭警告框信息？</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/jquery.sPage.js"></script>
+    <script src="assets/js/commont.js"></script>
+    <script src="laydate/laydate.js"></script>
+    <script type="text/javascript">
+        ModalDialog('agentModalDialog');
+        ModalDialog('wangModal');
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#deadline' //指定元素
+            , format: 'yyyy-MM-dd'
+        });
+
+        // 查询下拉选项
+        // 代理级别3、地区5
+        var AgencyLevelList = findAllList(3);
+        var AreaList = findAllList(5);
+
+        // 搜索栏下拉代理级别
+        findAgencyLevelList();
+        function findAgencyLevelList() {
+            // console.log(AgencyLevelList); console.log(AreaList);
+            $('#AgencyLevelList').empty();
+            $('#AgencyLevelList').append(`<option class="form-control"  value='' selected>请选择代理级别</option></option>`);
+            for (let i = 0; i < AgencyLevelList.length; i++) {
+                $('#AgencyLevelList').append(`
+                <option class="form-control" value=${AgencyLevelList[i].id}>${AgencyLevelList[i].name}</option>
+                `);
+            }
+        }
+
+        // 查询员工下的下拉选项并渲染
+        function findAllOptions() {
+            // console.log(AgencyLevelList); console.log(AreaList);
+            $('#agencyLevel').empty();
+            $('#agencyLevel').append(`<option class="form-control"  value='' selected>请选择代理级别</option></option>`);
+            for (let i = 0; i < AgencyLevelList.length; i++) {
+                $('#agencyLevel').append(`
+                <option class="form-control" value=${AgencyLevelList[i].id}>${AgencyLevelList[i].name}</option>
+                `);
+            }
+            $('#area').empty();
+            $('#area').append(`<option class="form-control"  value='' selected>请选择地区</option></option>`);
+            for (let i = 0; i < AreaList.length; i++) {
+                $('#area').append(`
+                <option class="form-control" value=${AreaList[i].id}>${AreaList[i].name}</option>
+                `);
+            }
+        }
+
+        let data = '';
+        getPageAgent(data);
+
+        function searchContent() {
+            var level = $("#AgencyLevelList option:selected").val();
+            var searchContent = $('#searchInput').val();
+            if (level == '' && searchContent == '') {
+                data = '';
+                // console.log("搜索全部");
+                // 搜索全部
+            } else if (level != '' && searchContent == '') {
+                data = { "level": level };
+                // console.log("搜索分类");
+                // 搜索分类
+            } else if (level == '' && searchContent != '') {
+                data = { "phone": searchContent };
+                // console.log("搜索内容");
+                // 搜索名称
+            } else if (level != '' && searchContent != '') {
+                data = { "level": level, "phone": searchContent };
+                // console.log("搜索分类和搜索内容");
+                // 搜索分类和搜索内容
+            }
+            getPageAgent(data);
+        }
+
+        // 获取分页代理商
+        function getPageAgent(data) {
+            // console.log(data);
+            $.ajax({
+                type: "get",
+                url: serverIp + "/agency/page",
+                data: data,
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code === 0) {
+                        // console.log(res.data.records);
+                        // 调用分页插件
+                        $("#myPage").sPage({
+                            page: 1,//当前页码
+                            total: res.data.total,//数据总条数,后台返回
+                            backFun: function (page) {
+                                // console.log("点击分页按钮回调函数，返回当前页码");
+                                if (data == '') {
+                                    data = {};
+                                }
+                                data.current = page;
+                                // console.log(data.current);
+                                //点击分页按钮回调函数，返回当前页码
+                                $.ajax({
+                                    type: "get",
+                                    url: serverIp + "/agency/page",
+                                    data: data,
+                                    dataType: "json",
+                                    contentType: "application/json;charset=UTF-8",
+                                    success: function (res) {
+                                        // console.log(res);
+                                        if (res.code === 0) {
+                                            $('#agentTable tbody').empty();
+                                            var agentList = res.data.records;
+                                            // console.log(agentList);
+                                            for (let i = 0; i < agentList.length; i++) {
+                                                $('#agentTable tbody').append(`
+                                                <tr>
+                                                    <td>${i + 1}</td>
+                                                    <td>${agentList[i].name}</td>
+                                                    <td>${agentList[i].phone}</td>
+                                                    <td>${(agentList[i].company == '' || agentList[i].company == undefined) ? '--' : agentList[i].company}</td>
+                                                    <td>${agentList[i].area}</td>
+                                                    <td>${agentList[i].agencyLevel}</td>
+                                                    <td class="deadlineColor">${agentList[i].deadline == -1 ? '未授权' : (agentList[i].deadline == 0 ? '已过期' : ($('.deadlineColor').css("color", "green"), '已授权'))}</td>
+                                                    <td>${(agentList[i].insurance == '' || agentList[i].insurance == undefined) ? '--' : agentList[i].insurance}</td>
+                                                    <td>${(agentList[i].chairman == '' || agentList[i].chairman == undefined) ? '--' : agentList[i].chairman}</td>
+                                                </tr>`);
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            })
+        }
+
+        // 提交新增表单
+        function submitAgent() {
+            let d = {};
+            let t = $('form').serializeArray();
+            $.each(t, function () {
+                d[this.name] = this.value;
+            });
+            // console.log("提交表格");
+            // console.log(d);
+            for (let key in d) {
+                if (key == "name" && d[key] == '') {
+                    $('.tipText').text("请输入姓名");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "pwd1" && d[key] == '') {
+                    $('.tipText').text("请输入密码");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "pwd2" && d[key] == '') {
+                    $('.tipText').text("请输入密码");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "phone" && d[key] == '') {
+                    $('.tipText').text("请输入手机号码");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "area" && d[key] == '') {
+                    $('.tipText').text("请选择地区");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "agencyLevel" && d[key] == '') {
+                    $('.tipText').text("请选择级别");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "deadline" && d[key] == '') {
+                    $('.tipText').text("请选择有效期时间");
+                    $('#wangModal').modal('show');
+                    return;
+                }
+            }
+            if (checkPassword() && checkPhone()) {
+                $.ajax({
+                    type: "post",
+                    url: serverIp + "/agency/register",
+                    data: JSON.stringify({
+                        name: d.name,
+                        pwd: d.pwd2,
+                        phone: d.phone,
+                        company: d.company,
+                        area: d.area,
+                        agencyLevel: d.agencyLevel,
+                        deadline: d.deadline,
+                        insurance: d.insurance,
+                        chairman: d.chairman
+                    }),
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    async: false,
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("添加代理商成功");
+                            $('#agentModalDialog').modal('hide');
+                            getPageAgent();
+                        } else {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                });
+            }
+        }
+
+        $('#agentModalDialog').on('show.bs.modal', function (e) {
+            findAllOptions();
+            $('name').val('');
+            $('pwd1').val('');
+            $('pwd2').val('');
+            $('phone').val('');
+            $('company').val('');
+            $('area').val('');
+            $('agencyLevel').val('');
+            $('deadline').val('');
+            $('insurance').val('');
+            $('chairman').val('');
+        });
+
+        // 校验手机号码
+        function checkPhone() {
+            var phones = $('#phone').val();
+            var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+            if (!myreg.test(phones)) {
+                // console.log('手机号格式不正确')
+                $('.tipText').text('手机号码无效');
+                $('#wangModal').modal('show');
+                $('#phone').val('');
+                return false;
+            }
+            return true;
+        }
+
+        // 校验密码
+        function checkPassword() {
+            var pwd1 = $('#pwd1').val();
+            var pwd2 = $('#pwd2').val();
+            if (pwd1 !== pwd2) {
+                $('.tipText').text('密码不一致');
+                $('#wangModal').modal('show');
+                $('#pwd2').val('');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+
+</html>

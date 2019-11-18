@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>基础设置</title>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!--CUSTOM BASIC STYLES-->
+    <link href="assets/css/basic.css" rel="stylesheet" />
+    <!--CUSTOM MAIN STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/jquery.sPage.css" />
+    <link rel="stylesheet" href="assets/css/index.css" />
+</head>
+
+<body>
+    <div id="page-wrapper">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading alert-contents" style="font-size: 18px;">
+                            基础设置总览表
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-1">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading alert-contents">
+                                            职务设置
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table id="t0-1" class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>名称</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading alert-contents">
+                                            部门设置
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table id="t0-2" class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>名称</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading alert-contents">
+                                            地区设置
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table id="t0-3" class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>名称</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading alert-contents">
+                                            代理级别
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table id="t0-4" class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>名称</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading alert-contents">
+                                            会员级别
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table id="t0-5" class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>名称</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t1-1"
+                                onclick="findRoleList()">职务设置</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t2-1"
+                                onclick="findDepartmentList()">部门设置</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t3-1"
+                                onclick="findAreaList()">地区设置</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t4-1"
+                                onclick="findDailiList()">代理级别</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t5-1"
+                                onclick="findMemberList()">会员级别</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="Spage">
+                        <div id="myPage" class="demo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+    <!-- 职务设置Modal -->
+    <div class="modal fade" id="t1-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel1">职务设置</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>职务名称</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t1-2"
+                        data-type="addRole">新建</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 新增、修改职务 -->
+    <div class="modal fade" id="t1-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel1-1">新增职务</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert-contents">
+                        <div class="form-group form-inline">
+                            <label for="recipient-name"
+                                class="control-label">职务名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input type="text" class="form-control" id="Rolename">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="addandUpdateRole()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 部门设置Modal -->
+    <div class="modal fade" id="t2-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel2">部门设置</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>部门名称</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <tr>
+                                    <td>1</td>
+                                    <td>技术部</td>
+                                    <td>
+                                        <button type="button" class="btn btn-info">编辑</button>
+                                        <button type="button" class="btn btn-danger">删除</button>
+                                    </td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t2-2"
+                        data-type="addDepartment">新建</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 新增、修改部门 -->
+    <div class="modal fade" id="t2-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel2-1">编辑部门</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert-contents">
+                        <div class="form-group form-inline">
+                            <label for="recipient-name"
+                                class="control-label">部门名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input type="text" class="form-control" id="departmentName">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="addandUpdateDepartment()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 地区设置Modal -->
+    <div class="modal fade" id="t3-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel3">地区设置</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>地区名称</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t3-2"
+                        data-type="addArea">新建</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 新增、修改地区 -->
+    <div class="modal fade" id="t3-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel3-1">新增地区</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert-contents">
+                        <div class="form-group form-inline">
+                            <label for="recipient-name"
+                                class="control-label">地区名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input type="text" class="form-control areaName" id="areaName">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="addArea()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 代理级别设置Modal -->
+    <div class="modal fade" id="t4-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel4">代理级别设置</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>代理级别名称</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <tr>
+                                    <td>1</td>
+                                    <td>一级</td>
+                                    <td>
+                                        <button type="button" class="btn btn-info">编辑</button>
+                                        <button type="button" class="btn btn-danger">删除</button>
+                                    </td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t4-2"
+                        data-type="add">新建</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 新增、修改代理级别 -->
+    <div class="modal fade" id="t4-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel4-1">编辑代理级别</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert-contents">
+                        <div class="form-group form-inline">
+                            <label for="recipient-name"
+                                class="control-label">代理级别名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input type="text" class="form-control" id="dailiname">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="addandUpdateDaili()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 会员级别设置Modal -->
+    <div class="modal fade" id="t5-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel5">会员级别设置</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>会员级别名称</th>
+                                    <th>折扣(%)</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t5-2"
+                        data-type="addMember">新建</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 新增、修改会员级别 -->
+    <div class="modal fade" id="t5-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel5-1">编辑会员级别</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert-contents">
+                        <div class="form-group form-inline">
+                            <label for="recipient-name"
+                                class="control-label">会员级别名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input type="text" class="form-control" id="memberName">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label for="recipient-name"
+                                class="control-label">折扣(%)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input type="number" class="form-control" id="discount">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="addandUpdateMember()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/jquery.sPage.js"></script>
+    <script src="assets/js/commont.js"></script>
+    <script type="text/javascript">
+        // 模态框居中
+        ModalDialog('t1-1'); ModalDialog('t1-2');
+        ModalDialog('t2-1'); ModalDialog('t2-2');
+        ModalDialog('t3-1'); ModalDialog('t3-2');
+        ModalDialog('t4-1'); ModalDialog('t4-2');
+        ModalDialog('t5-1'); ModalDialog('t5-2');
+
+        // 职务1、部门0、地区5、代理级别3、会员级别2
+        var RoleList = findAllList(1);
+        var DepartmentList = findAllList(0);
+        var AreaList = findAllList(5);
+        var DailiList = findAllList(3);
+        var MemberList = findAllList(2);
+
+        // 渲染基础设置总览表
+        findBasictab();
+        function findBasictab() {
+            $('#t0-1 tbody').empty();
+            for (let i = 0; i < RoleList.length; i++) {
+                $('#t0-1 tbody').append(`<tr><td>${i+1}</td><td>${RoleList[i].name}</td></tr>`);
+            }
+            $('#t0-2 tbody').empty();
+            for (let i = 0; i < DepartmentList.length; i++) {
+                $('#t0-2 tbody').append(`<tr><td>${i+1}</td><td>${DepartmentList[i].name}</td></tr>`);
+            }
+            $('#t0-3 tbody').empty();
+            for (let i = 0; i < AreaList.length; i++) {
+                $('#t0-3 tbody').append(`<tr><td>${i+1}</td><td>${AreaList[i].name}</td></tr>`);
+            }
+            $('#t0-4 tbody').empty();
+            for (let i = 0; i < DailiList.length; i++) {
+                $('#t0-4 tbody').append(`<tr><td>${i+1}</td><td>${DailiList[i].name}</td></tr>`);
+            }
+            $('#t0-5 tbody').empty();
+            for (let i = 0; i < MemberList.length; i++) {
+                $('#t0-5 tbody').append(`<tr><td>${i+1}</td><td>${MemberList[i].name}</td></tr>`);
+            }
+        }
+
+        let type = '';
+        let id = '';
+        /*--------------------------------1、职务设置----------------------------------------*/
+        //查询单个职务
+        function findRole(id) {
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/role/get/" + id,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code === 0) {
+                        $('#Rolename').val(res.data.name);
+                    }
+                }
+            })
+        }
+        // 查詢所有职务
+        function findRoleList() {
+            var data = findAllList(1);
+            // console.log(data);
+            $('#t1-1 table tbody').empty();
+            for (let i = 0; i < data.length; i++) {
+                $('#t1-1 table tbody').append(`
+                <tr>
+                    <td>${i+1}</td>
+                    <td>${data[i].name}</td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-id="${data[i].id}" data-toggle="modal"
+                            data-target="#t1-2" data-type="updateRole">修改</button>
+                        <button type="button" class="btn btn-danger" id="dltRole${data[i].id}">删除</button>
+                    </td>
+                <tr>`);
+            }
+        }
+
+        // 查询单个、删除职务
+        $('#t1-1 table tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 7);
+            var id = str.slice(7);
+            if (idName == "dltRole") {
+                //删除职务
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/role/delete",
+                    data: { "id": id },
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log("删除成功");
+                        findRoleList();
+                        window.location.reload(true);
+                    }
+                })
+            }
+        })
+
+        // 新增、修改职务
+        function addandUpdateRole() {
+            var Rolename = $('#Rolename').val();
+            if (Rolename != '') {
+                if (type == "addRole") {
+                    // console.log("新增");
+                    $.ajax({
+                        type: "post",
+                        contentType: 'application/json; charset=UTF-8',
+                        url: serverIp + "/role/add",
+                        data: JSON.stringify({ name: Rolename }),
+                        dataType: "json",
+                        success: function (res) {
+                            // console.log(res);
+                            if (res.code === 0) {
+                                $('#t1-2').modal('hide');
+                                findRoleList();
+                                window.location.reload(true);
+                            }
+                        }
+                    })
+                } else if (type == "updateRole") {
+                    // console.log("修改");
+                    $.ajax({
+                        type: "post",
+                        contentType: 'application/json; charset=UTF-8',
+                        url: serverIp + "/role/update",
+                        data: JSON.stringify({ id: id, name: Rolename }),
+                        dataType: "json",
+                        success: function (res) {
+                            // console.log(res);
+                            if (res.code === 0) {
+                                $('#t1-2').modal('hide');
+                                findRoleList();
+                                window.location.reload(true);
+                            }
+                        }
+                    })
+                }
+            } else {
+                $('#t1-2').modal('hide');
+                findRoleList();
+            }
+        }
+
+        $('#t1-2').on('show.bs.modal', function (e) {
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#t1-2').css("zIndex", zIndex + 1);
+            // console.log($(e.relatedTarget).data("type"));
+            type = $(e.relatedTarget).data("type");
+            if (type == "updateRole") {
+                $('#exampleModalLabel1-1').text("修改职务");
+                id = $(e.relatedTarget).data("id");
+                // console.log(id);
+                findRole(id);
+            } else if (type == "addRole") {
+                $('#exampleModalLabel1-1').text("新增职务");
+                $('#Rolename').val('');
+            }
+        });
+
+        // $('#t1-1').on('hide.bs.modal', function (e) {
+        //     findBasictab(1);
+        // });
+
+        /*---------------------------------2、部门设置---------------------------------------*/
+        //查询单个部门
+        function findDepartment(id) {
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/department/get/" + id,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code === 0) {
+                        $('#departmentName').val(res.data.name);
+                    }
+                }
+            })
+        }
+        // 查詢所有部门
+        function findDepartmentList() {
+            var data = findAllList(0);
+            // console.log(data);
+            $('#t2-1 table tbody').empty();
+            for (let i = 0; i < data.length; i++) {
+                $('#t2-1 table tbody').append(`
+                <tr>
+                    <td>${i+1}</td>
+                    <td>${data[i].name}</td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-id="${data[i].id}" data-toggle="modal"
+                            data-target="#t2-2" data-type="updateDepartment">修改</button>
+                        <button type="button" class="btn btn-danger" id="dltDepartment${data[i].id}">删除</button>
+                    </td>
+                <tr>`);
+            }
+        }
+
+        // 查询单个、删除部门
+        $('#t2-1 table tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 13);
+            var id = str.slice(13);
+            if (idName == "dltDepartment") {
+                //删除部门
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/department/delete",
+                    data: { "id": id },
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log("删除成功");
+                        findDepartmentList();
+                        window.location.reload(true);
+                    }
+                })
+            }
+        })
+
+        // 新增、修改部门
+        function addandUpdateDepartment() {
+            var departmentName = $('#departmentName').val();
+            if (departmentName != '') {
+                if (type == "addDepartment") {
+                    // console.log("新增");
+                    $.ajax({
+                        type: "post",
+                        contentType: 'application/json; charset=UTF-8',
+                        url: serverIp + "/department/add",
+                        data: JSON.stringify({ name: departmentName }),
+                        dataType: "json",
+                        success: function (res) {
+                            // console.log(res);
+                            if (res.code === 0) {
+                                $('#t2-2').modal('hide');
+                                findDepartmentList();
+                                window.location.reload(true);
+                            }
+                        }
+                    })
+                } else if (type == "updateDepartment") {
+                    // console.log("修改");
+                    $.ajax({
+                        type: "post",
+                        contentType: 'application/json; charset=UTF-8',
+                        url: serverIp + "/department/update",
+                        data: JSON.stringify({ id: id, name: departmentName }),
+                        dataType: "json",
+                        success: function (res) {
+                            // console.log(res);
+                            if (res.code === 0) {
+                                $('#t2-2').modal('hide');
+                                findDepartmentList();
+                                window.location.reload(true);
+                            }
+                        }
+                    })
+                }
+            } else {
+                $('#t2-2').modal('hide');
+                findDepartmentList();
+            }
+        }
+
+        $('#t2-2').on('show.bs.modal', function (e) {
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#t2-2').css("zIndex", zIndex + 1);
+            // console.log($(e.relatedTarget).data("type"));
+            type = $(e.relatedTarget).data("type");
+            if (type == "updateDepartment") {
+                $('#exampleModalLabel2-1').text("修改部门");
+                id = $(e.relatedTarget).data("id");
+                // console.log(id);
+                findDepartment(id);
+            } else if (type == "addDepartment") {
+                $('#exampleModalLabel2-1').text("新增部门");
+                $('#departmentName').val('');
+            }
+        });
+
+        /*-------------------------------3、地区设置-----------------------------------------*/
+        //查询单个地区
+        function findArea(id) {
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/area/get/" + id,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code === 0) {
+                        $('#areaName').val(res.data.name);
+                    }
+                }
+            })
+        }
+        // 查詢所有地区
+        function findAreaList() {
+            var data = findAllList(5);
+            // console.log(data);
+            $('#t3-1 table tbody').empty();
+            for (let i = 0; i < data.length; i++) {
+                $('#t3-1 table tbody').append(`
+                <tr>
+                    <td>${i+1}</td>
+                    <td>${data[i].name}</td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-id="${data[i].id}" data-toggle="modal"
+                            data-target="#t3-2" data-type="edtArea">修改</button>
+                        <button type="button" class="btn btn-danger" id="dltArea${data[i].id}">删除</button>
+                    </td>
+                <tr>`);
+            }
+        }
+
+        // 查询单个、删除地区
+        $('#t3-1 table tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 7);
+            var id = str.slice(7);
+            if (idName == "dltArea") {
+                //删除代地区
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/area/delete",
+                    data: { "id": id },
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log("删除成功");
+                        findAreaList();
+                        window.location.reload(true);
+                    }
+                })
+            }
+        })
+
+        // 新增、修改地区
+        function addArea() {
+            var name = $('#areaName').val();
+            if (name != '') {
+                if (type == "addArea") {
+                    // console.log("新增");
+                    $.ajax({
+                        type: "post",
+                        contentType: 'application/json; charset=UTF-8',
+                        url: serverIp + "/area/add",
+                        data: JSON.stringify({ name: name }),
+                        dataType: "json",
+                        success: function (res) {
+                            // console.log(res);
+                            if (res.code === 0) {
+                                $('#t3-2').modal('hide');
+                                findAreaList();
+                                window.location.reload(true);
+                            }
+                        }
+                    })
+                } else if (type == "edtArea") {
+                    // console.log("修改");
+                    $.ajax({
+                        type: "post",
+                        contentType: 'application/json; charset=UTF-8',
+                        url: serverIp + "/area/update",
+                        data: JSON.stringify({ id: id, name: name }),
+                        dataType: "json",
+                        success: function (res) {
+                            // console.log(res);
+                            if (res.code === 0) {
+                                $('#t3-2').modal('hide');
+                                findAreaList();
+                                window.location.reload(true);
+                            }
+                        }
+                    })
+                }
+            } else {
+                // $('.tipText').text("请填写地区");
+                // $('#wangModal').modal('show');
+                $('#t3-2').modal('hide');
+                findAreaList();
+            }
+        }
+
+        $('#t3-2').on('show.bs.modal', function (e) {
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#t3-2').css("zIndex", zIndex + 1);
+            //console.log($(e.relatedTarget).data("type"));
+            type = $(e.relatedTarget).data("type");
+            if (type == "edtArea") {
+                // console.log("修改地区")
+                $('#exampleModalLabel3-1').text("修改地区");
+                id = $(e.relatedTarget).data("id");
+                // console.log(id);
+                findArea(id);
+            } else if (type == "addArea") {
+                $('#exampleModalLabel3-1').text("新增地区");
+                $('#areaName').val('');
+            }
+        });
+
+        /*-------------------------------4、代理商级别设置-----------------------------------------*/
+        //查询单个代理级别
+        function findDaili(id) {
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/agency_level/get/" + id,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code === 0) {
+                        $('#dailiname').val(res.data.name);
+                    }
+                }
+            })
+        }
+        // 查詢所有代理級別
+        function findDailiList() {
+            var data = findAllList(3);
+            $('#t4-1 table tbody').empty();
+            for (let i = 0; i < data.length; i++) {
+                $('#t4-1 table tbody').append(`
+                <tr>
+                    <td>${i+1}</td>
+                    <td>${data[i].name}</td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-id="${data[i].id}" data-toggle="modal"
+                            data-target="#t4-2" data-type="update">修改</button>
+                        <button type="button" class="btn btn-danger" id="dltDaili${data[i].id}">删除</button>
+                    </td>
+                <tr>`);
+            }
+        }
+
+        // 查询单个、删除代理级别
+        $('#t4-1 table tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 8);
+            var id = str.slice(8);
+            if (idName == "dltDaili") {
+                //删除代理级别
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/agency_level/delete",
+                    data: { "id": id },
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log("删除成功");
+                        findDailiList();
+                        window.location.reload(true);
+                    }
+                })
+            }
+        })
+
+        // 新增、修改代理级别
+        function addandUpdateDaili() {
+            // console.log("点击确定");
+            // console.log(type);
+            var dailiname = $('#dailiname').val();
+            if (type == "add") {
+                // console.log("新增");
+                $.ajax({
+                    type: "post",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/agency_level/add",
+                    data: JSON.stringify({ name: dailiname }),
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            $('#t4-2').modal('hide');
+                            findDailiList();
+                            window.location.reload(true);
+                        }
+                    }
+                })
+            } else if (type == "update") {
+                // console.log("修改");
+                $.ajax({
+                    type: "post",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/agency_level/update",
+                    data: JSON.stringify({ id: id, name: dailiname }),
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            $('#t4-2').modal('hide');
+                            findDailiList();
+                            window.location.reload(true);
+                        }
+                    }
+                })
+            }
+        }
+
+        $('#t4-2').on('show.bs.modal', function (e) {
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#t4-2').css("zIndex", zIndex + 1);
+            // console.log($(e.relatedTarget).data("type"));
+            type = $(e.relatedTarget).data("type");
+            if (type == "update") {
+                $('#exampleModalLabel4-1').text("修改代理级别");
+                id = $(e.relatedTarget).data("id");
+                // console.log(id);
+                findDaili(id);
+            } else if (type == "add") {
+                $('#exampleModalLabel4-1').text("新增代理级别");
+                $('#dailiname').val('');
+            }
+        });
+
+
+        /*---------------------------------5、会员级别设置---------------------------------------*/
+        //查询单个会员级别
+        function findMember(id) {
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/member_level/get/" + id,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code === 0) {
+                        $('#memberName').val(res.data.name);
+                        $('#discount').val(res.data.discount);
+                    }
+                }
+            })
+        }
+        // 查詢所有会员級別
+        function findMemberList() {
+            var data = findAllList(2);
+            // console.log(data);
+            $('#t5-1 table tbody').empty();
+            for (let i = 0; i < data.length; i++) {
+                $('#t5-1 table tbody').append(`
+                <tr>
+                    <td>${i+1}</td>
+                    <td>${data[i].name}</td>
+                    <td>${data[i].discount}</td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-id="${data[i].id}" data-toggle="modal"
+                            data-target="#t5-2" data-type="updateMember">修改</button>
+                        <button type="button" class="btn btn-danger" id="dltMember${data[i].id}">删除</button>
+                    </td>
+                <tr>`);
+            }
+        }
+
+        // 查询单个、删除会员级别
+        $('#t5-1 table tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 9);
+            var id = str.slice(9);
+            if (idName == "dltMember") {
+                //删除会员级别
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/member_level/delete",
+                    data: { "id": id },
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log("删除成功");
+                        findMemberList();
+                        window.location.reload(true);
+                    }
+                })
+            }
+        })
+
+        // 新增、修改会员级别
+        function addandUpdateMember() {
+            var memberName = $('#memberName').val();
+            var discount = $('#discount').val();
+            if (type == "addMember") {
+                $.ajax({
+                    type: "post",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/member_level/add",
+                    data: JSON.stringify({ name: memberName, discount: discount }),
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            $('#t5-2').modal('hide');
+                            findMemberList();
+                            window.location.reload(true);
+                        }
+                    }
+                })
+            } else if (type == "updateMember") {
+                // console.log("修改");
+                // console.log(id);
+                $.ajax({
+                    type: "post",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/member_level/update",
+                    data: JSON.stringify({ id: id, name: memberName, discount: discount }),
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            $('#t5-2').modal('hide');
+                            findMemberList();
+                            window.location.reload(true);
+                        }
+                    }
+                })
+            }
+        }
+
+        $('#t5-2').on('show.bs.modal', function (e) {
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#t5-2').css("zIndex", zIndex + 1);
+            // console.log($(e.relatedTarget).data("type"));
+            type = $(e.relatedTarget).data("type");
+            if (type == "updateMember") {
+                $('#exampleModalLabel5-1').text("修改会员级别");
+                id = $(e.relatedTarget).data("id");
+                // console.log(id);
+                findMember(id);
+            } else if (type == "addMember") {
+                $('#exampleModalLabel5-1').text("新增会员级别");
+                $('#memberName').val('');
+                $('#discount').val('');
+            }
+        });
+    </script>
+</body>
+
+</html>

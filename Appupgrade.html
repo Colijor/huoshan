@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>APP升级</title>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!--CUSTOM BASIC STYLES-->
+    <link href="assets/css/basic.css" rel="stylesheet" />
+    <!--CUSTOM MAIN STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/jquery.sPage.css" />
+    <link rel="stylesheet" href="assets/css/index.css" />
+</head>
+
+<body>
+    <div id="page-wrapper">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAppModalDialog"
+                        data-type="addApp">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="appTable" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>版本号</th>
+                                            <th>文件名</th>
+                                            <th>上传日期</th>
+                                            <th>上传用户</th>
+                                            <th>更新日志</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="Spage">
+                        <div id="myPage" class="demo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+    <!-- /. myModalDialog -->
+    <div class="modal fade" id="addAppModalDialog" tabindex="-1" role="dialog" aria-labelledby="addAppModalDialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">上传APP</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="alert-contents">
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">版本号&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" id="version" name="version">
+                            </div>
+                            <div class="form-group">
+                                <form class="addAppModalDialog" enctype="multipart/form-data">
+                                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                                        <div class="upload-file">
+                                            <div class="body" id="drop">
+                                                <!-- <div class="fileupload-preview thumbnail">
+                                                </div> -->
+                                                <i class="fa fa-file-text-o pointer-none" id="triggerFile"
+                                                    aria-hidden="true"></i>
+                                                <p class="pointer-none"><b>点击选择文件上传<br /></p>
+                                                <!-- <a href="" id="triggerFile" style="font-size:16px;font-weight: 700;">浏览</a>开始上传</p> -->
+                                                <input type="file" id="file" multiple="multiple" />
+                                            </div>
+                                        </div>
+                                        <div class="progress">
+                                            <div id="processBar" class="progress-bar progress-bar-success"
+                                                role="progressbar" aria-valuenow="2" aria-valuemin="0"
+                                                aria-valuemax="100" style="min-width: 2em;">
+                                                2%
+                                            </div>
+                                        </div>
+                                        <div class="upFileSuccess"></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label" style="float: left;">更新说明:</label>
+                                <textarea class="form-control" rows="3" name="log" id="log"
+                                    style="width: 100%;"></textarea>
+                                <!-- <input type="text" class="form-control" id="recipient-name" placeholder="更新说明"> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="submitApp()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 警告提示模态框 -->
+    <div class="modal fade bs-example-modal-sm" id="wangModal" aria-hidden="true" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>提示</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="tipText">确定要关闭警告框信息？</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 成功提示模态框 -->
+    <div class="modal fade bs-example-modal-sm" id="successModal" aria-hidden="true" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- <div class="modal-header">
+                </div> -->
+                <div class="modal-body">
+                    <p class="upFileSuccess">上传成功</p>
+                </div>
+                <!-- <div class="modal-footer">
+                    <button class="btn btn-info" data-dismiss="modal">关闭</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/jquery.sPage.js"></script>
+    <script src="assets/js/commont.js"></script>
+    <script type="text/javascript">
+        // 模态框
+        ModalDialog('addAppModalDialog');
+        ModalDialog('wangModal');
+        ModalDialog('successModal');
+
+        // 上传APK文件
+        let fileUrl = '';
+        let fileName = '';
+        function handleFileSelect() {
+            $(".progress").show();
+            let f = document.getElementById('file').files[0];
+            fileName = f.name;
+            // console.log(f);
+            let imgSize = f.size;
+            if (imgSize > 1024 * 1024 * 10) {
+                $('.tipText').text("文件不能超过10M");
+                $('#wangModal').modal('show');
+                return;
+            } else {
+                let formdata = new FormData();
+                if (f != "") {
+                    formdata.append('file', f);
+                }
+                $.ajax({
+                    type: "post",
+                    url: serverIp + "/app/upload",
+                    data: formdata,
+                    dataType: "json",
+                    cache: false,
+                    contentType: false,//默认: "application/x-www-form-urlencoded" 
+                    processData: false,//设置 processData 选项为 false，防止自动转换数据格式 
+                    xhr: function () {
+                        myXhr = $.ajaxSettings.xhr();
+                        if (myXhr.upload) {
+                            myXhr.upload.addEventListener('progress', function (e) {
+                                var loaded = e.loaded;                  //已经上传大小情况 
+                                var total = e.total;                      //附件总大小 
+                                var percent = Math.floor(100 * loaded / total) + "%";     //已经上传的百分比  
+                                // console.log("已经上传了：" + percent);
+                                $("#processBar").css("width", percent);
+                                $("#processBar").text(percent);
+                            }, false);
+                        }
+                        return myXhr;
+                    },
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            fileUrl = res.data;
+                            // $('#successModal').modal('show');
+                            // setTimeout(function () {
+                            //     $('#successModal').modal('hide');
+                            // }, 1000);
+                            $(".progress").hide();
+                            $('.upFileSuccess').text('上传成功');
+                            $('#drop .pointer-none >b').text(fileName);
+                        } else {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            }
+        }
+        var triggerFile = document.getElementById('triggerFile');
+        triggerFile.addEventListener("click", evt => {
+            // console.log("点击浏览");
+            evt.preventDefault();
+            $("input[type=file]").click();
+        });
+
+        // input change
+        var file = document.getElementById('file');
+        file.addEventListener("change", handleFileSelect);
+
+        let data = '';
+        getPageApp();
+        // 获取分页素材
+        function getPageApp() {
+            $.ajax({
+                type: "get",
+                url: serverIp + "/app/page",
+                data: data,
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code === 0) {
+                        // console.log(res.data.records);
+                        // 调用分页插件
+                        $("#myPage").sPage({
+                            page: 1,//当前页码
+                            total: res.data.total,//数据总条数,后台返回
+                            backFun: function (page) {
+                                // console.log("点击分页按钮回调函数，返回当前页码");
+                                if (data == '') {
+                                    data = {};
+                                }
+                                data.current = page;
+                                // console.log(data.current);
+                                //点击分页按钮回调函数，返回当前页码
+                                $.ajax({
+                                    type: "get",
+                                    url: serverIp + "/app/page",
+                                    data: data,
+                                    dataType: "json",
+                                    contentType: "application/json;charset=UTF-8",
+                                    success: function (res) {
+                                        // console.log(res);
+                                        if (res.code === 0) {
+                                            $('#appTable tbody').empty();
+                                            var appList = res.data.records;
+                                            // console.log(appList);
+                                            for (let i = 0; i < appList.length; i++) {
+                                                $('#appTable tbody').append(`
+                                                <tr>
+                                                    <td>${i + 1}</td>
+                                                    <td>${appList[i].version}</td>
+                                                    <td>${appList[i].name}</td>
+                                                    <td>${appList[i].createTime}</td>
+                                                    <td>${appList[i].userName}</td>
+                                                    <td>${appList[i].log}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger" id="dltApp${appList[i].id}">删除</button>
+                                                    </td>
+                                                </tr>`);
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            })
+        }
+
+        let type = '';
+        let id = '';
+        // 提交新增表单
+        function submitApp() {
+            let userName = localStorage.getItem('userName');
+            let d = {};
+            let t = $('form').serializeArray();
+            t.push({ "name": "url", "value": fileUrl }, { "name": "name", "value": fileName }, { "name": "userName", "value": userName });
+            $.each(t, function () {
+                d[this.name] = this.value;
+            });
+            // console.log("提交表格");
+            // console.log(d);
+            for (let key in d) {
+                if (key == "url" && d[key] == '') {
+                    $('.tipText').text("请上传APK文件");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "version" && d[key] == '') {
+                    $('.tipText').text("请输入版本号");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "log" && d[key] == '') {
+                    $('.tipText').text("请填写更新说明");
+                    $('#wangModal').modal('show');
+                    return;
+                }
+            }
+            $.ajax({
+                type: "post",
+                url: serverIp + "/app/add",
+                data: JSON.stringify({
+                    name: d.name,
+                    version: d.version,
+                    userName: d.userName,
+                    log: d.log,
+                    url: d.url
+                }),
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                async: false,
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code === 0) {
+                        // console.log("添加APK成功");
+                        $('#addAppModalDialog').modal('hide');
+                        getPageApp();
+                    } else {
+                        $('.tipText').text(res.message);
+                        $('#wangModal').modal('show');
+                    }
+                }
+            });
+        }
+
+        // 删除素材
+        $('#appTable tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 6);
+            var ID = str.slice(6);
+            if (idName == "dltApp") {
+                //删除素材
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/app/delete",
+                    data: { "id": ID },
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log("删除成功");
+                        if (res.code === 0) {
+                            getPageApp();
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+</body>
+
+</html>

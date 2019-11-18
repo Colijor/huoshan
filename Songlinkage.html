@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>歌曲联动</title>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!--CUSTOM BASIC STYLES-->
+    <link href="assets/css/basic.css" rel="stylesheet" />
+    <!--CUSTOM MAIN STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/jquery.sPage.css" />
+    <link rel="stylesheet" href="assets/css/index.css" />
+</head>
+
+<body>
+    <div id="page-wrapper">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading alert-contents" style="font-size: 18px;">
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="row" style="margin-top: 0;">
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <select class="form-control" name="searchSongClassify"
+                                                id="searchSongClassify" onchange="searchSong()">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="请输入你要搜索的歌曲"
+                                            id="searchInput">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button"
+                                                onclick="searchSong()">搜索</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#songModalDialog" data-type="addSong">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table id="songTable"
+                                                    class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>歌曲编号</th>
+                                                            <th>歌曲名称</th>
+                                                            <th>歌曲类型</th>
+                                                            <th>素材类型</th>
+                                                            <th>绑定素材</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="Spage">
+                                        <div id="myPage" class="demo"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#songClassifySetting" onclick="findAllSongClassify()">歌曲分类设置</button>
+                            <button type="button" id="sys1" class="btn btn-default"
+                                onclick="findSongList(1)">视易系统</button>
+                            <button type="button" id="sys2" class="btn btn-default"
+                                onclick="findSongList(2)">雷石系统</button>
+                            <button type="button" id="sys3" class="btn btn-default"
+                                onclick="findSongList(3)">音创系统</button>
+                            <button type="button" id="sys4" class="btn btn-default"
+                                onclick="findSongList(4)">阳光系统</button>
+                            <button type="button" id="sys5" class="btn btn-default"
+                                onclick="findSongList(5)">海媚系统</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+    <!-- /. songModalDialog -->
+    <div class="modal fade" id="songModalDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">新增歌曲联动</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="alert-contents">
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">歌曲编号&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" name="songNo" id="songNo">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">歌曲名称&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" name="songName" id="songName">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">歌曲类型&nbsp;&nbsp;</label>
+                                <select class="form-control classify" name="songClassify" id="songClassify">
+                                </select>
+                            </div>
+                            <!-- <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">素材ID&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" id="materialId">
+                            </div>-->
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">素材类型&nbsp;&nbsp;</label>
+                                <select class="form-control classify" name="sucaiClassify" id="sucaiClassify"
+                                    onchange="changeClassify()">
+                                </select>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">素材名称&nbsp;&nbsp;</label>
+                                <select class="form-control classify" name="materialName" id="materialName"
+                                    onchange="changeMaterial()">
+                                </select>
+
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">绑定素材&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" name="config" id="config" readonly>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="submitSong()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 歌曲分类设置Modal -->
+    <div class="modal fade" id="songClassifySetting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel1">歌曲分类设置</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>歌曲分类名称</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t1-2"
+                        data-type="addSong">新建</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 新增、修改歌曲 -->
+    <div class="modal fade" id="t1-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel1-1">新增歌曲分类</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert-contents">
+                        <div class="form-group form-inline">
+                            <label for="recipient-name"
+                                class="control-label">歌曲分类名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input type="text" class="form-control" id="songClassifyName">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="addandUpdateSong()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 警告提示模态框 -->
+    <div class="modal fade bs-example-modal-sm" id="wangModal" aria-hidden="true" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>提示</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="tipText">确定要关闭警告框信息？</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/jquery.sPage.js"></script>
+    <script src="assets/js/commont.js"></script>
+    <script type="text/javascript">
+        let type = '';
+        let id = '';
+        let company = 1;
+
+        // 分类6
+        var sucaiClassify = findAllList(6);
+        var songClassify = findAllList(7);
+
+        // 查询下拉选项并渲染
+        function findAllOptions() {
+            //console.log("分类下拉")
+            //console.log(sucaiClassify); console.log(songClassify);
+            $('#songClassify').empty();
+            $('#songClassify').append(`<option class="form-control"  value='' selected>请选择歌曲分类</option></option>`);
+            for (let i = 0; i < songClassify.length; i++) {
+                $('#songClassify').append(`
+                <option class="form-control" value=${songClassify[i].id}>${songClassify[i].name}</option>
+                `);
+            }
+            $('#sucaiClassify').empty();
+            $('#sucaiClassify').append(`<option class="form-control"  value='' selected>请选择素材分类</option></option>`);
+            for (let i = 0; i < sucaiClassify.length; i++) {
+                $('#sucaiClassify').append(`
+                <option class="form-control" value=${sucaiClassify[i].id}>${sucaiClassify[i].name}</option>
+                `);
+            }
+        }
+
+        // 素材类型联动素材名称下拉框
+        function changeClassify() {
+            var vs = $('#sucaiClassify  option:selected').val();
+            console.log("素材类型id:" + vs);
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/material/listByClassify",
+                data: {
+                    "classify": vs
+                },
+                dataType: "json",
+                success: function (res) {
+                    console.log("查询素材名称");
+                    console.log(res);
+                    $('#materialName').empty();
+                    $('#materialName').append(`<option class="form-control"  value='' selected>请选择素材名称</option></option>`);
+                    for (let i = 0; i < res.length; i++) {
+                        $('#materialName').append(`<option class="form-control" value=${res[i].id}>${res[i].name}</option>`);
+                    }
+                }
+            })
+        }
+
+        // 素材类型联动素材名称下拉框
+        function changeMaterial() {
+            var vs = $('#materialName  option:selected').val();
+            console.log("素材id:" + vs);
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/material/get/" + vs,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    console.log("查询素材文件");
+                    console.log(res);
+                    $('#config').val(res.data.no + '.txt');
+                }
+            })
+        }
+
+        // 搜索分类下拉选项
+        searchAllclassify();
+        function searchAllclassify() {
+            // console.log(songClassify);
+            $('#searchSongClassify').empty();
+            $('#searchSongClassify').append(`<option class="form-control"  value='' selected>请选择分类</option></option>`);
+            for (let i = 0; i < songClassify.length; i++) {
+                $('#searchSongClassify').append(`
+                <option class="form-control" value=${songClassify[i].id}>${songClassify[i].name}</option>
+                `);
+            }
+        }
+
+        // 搜索内容
+        let data = { "company": company };
+        function changeClass(company) {
+            for (let i = 1; i < 6; i++) {
+                if (i == company) {
+                    $('#sys' + company).removeClass().addClass('btn btn-primary');
+                } else {
+                    $('#sys' + i).removeClass().addClass('btn btn-default');
+                }
+            }
+        }
+
+        getPageSong(data);
+
+        function searchSong() {
+            var Allclassify = $("#searchSongClassify option:selected").val();
+            var searchContent = $('#searchInput').val();
+            // console.log(Allclassify);
+            // console.log(searchContent);
+            if (Allclassify == 0 && searchContent == '') {
+                data = { "company": company };
+                // 搜索全部
+            } else if (Allclassify != 0 && searchContent == '') {
+                data = { "company": company, "songClassify": Allclassify };
+                // 搜索分类
+            } else if (Allclassify == 0 && searchContent != '') {
+                data = { "company": company, "name": searchContent };
+                // 搜索歌曲名称
+            } else if (Allclassify != 0 && searchContent != '') {
+                data = { "company": company, "songClassify": Allclassify, "name": searchContent };
+                // 搜索分类和搜索歌曲名称
+            }
+            getPageSong(data);
+        }
+
+        function findSongList(companyId) {
+            company = companyId;
+            data.company = companyId;
+            //console.log(data);
+            this.getPageSong(data);
+        }
+
+        // 获取分页歌曲
+        function getPageSong(data) {
+            //console.log(data);
+            this.changeClass(company);
+            $.ajax({
+                type: "get",
+                url: serverIp + "/song/page",
+                data: data,
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    //console.log(res);
+                    if (res.code === 0) {
+                        // console.log(res.data.records);
+                        // 调用分页插件
+                        $("#myPage").sPage({
+                            page: 1,//当前页码
+                            total: res.data.total,//数据总条数,后台返回
+                            backFun: function (page) {
+                                // console.log("点击分页按钮回调函数，返回当前页码");
+                                if (data == '') {
+                                    data = {};
+                                }
+                                data.current = page;
+                                // console.log(data.current);
+                                //点击分页按钮回调函数，返回当前页码
+                                $.ajax({
+                                    type: "get",
+                                    url: serverIp + "/song/page",
+                                    data: data,
+                                    dataType: "json",
+                                    contentType: "application/json;charset=UTF-8",
+                                    success: function (res) {
+                                        console.log(res);
+                                        if (res.code === 0) {
+                                            $('#songTable tbody').empty();
+                                            var songList = res.data.records;
+                                            // console.log(songList);
+                                            for (let i = 0; i < songList.length; i++) {
+                                                $('#songTable tbody').append(`
+                                            <tr>
+                                                <td>${i + 1}</td>
+                                                <td>${songList[i].no}</td>
+                                                <td>${songList[i].name}</td>
+                                                <td>${songList[i].songClassify}</td>
+                                                <td>${songList[i].classify}</td>
+                                                <td>${songList[i].config}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info" data-id="${songList[i].id}" data-type="edtSong" data-toggle="modal" data-target="#songModalDialog">编辑</button>
+                                                    <button type="button" class="btn btn-danger" id="dltSong${songList[i].id}">删除</button>
+                                                </td>
+                                            </tr>`);
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            })
+        }
+
+        function submitSong() {
+            var d = {};
+            var t = $('form').serializeArray();
+            $.each(t, function () {
+                d[this.name] = this.value;
+            });
+            console.log(d);
+            for (let key in d) {
+                if (key == "songName" && d[key] == '') {
+                    $('.tipText').text("请输入歌曲名称");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "songNo" && d[key] == '') {
+                    $('.tipText').text("请输入歌曲编号");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "songClassify" && d[key] == '') {
+                    $('.tipText').text("请选择歌曲类型");
+                    $('#wangModal').modal('show');
+                } else if (key == "sucaiClassify" && d[key] == '') {
+                    $('.tipText').text("请选择素材类型");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "materialName" && d[key] == '') {
+                    $('.tipText').text("请选择素材名称");
+                    $('#wangModal').modal('show');
+                }
+            }
+            if (type == "addSong") {
+                $.ajax({
+                    type: "post",
+                    url: serverIp + "/song/add",
+                    data: JSON.stringify({
+                        company: company,
+                        name: d.songName,
+                        no: d.songNo,
+                        songClassify: d.songClassify,
+                        classify: d.sucaiClassify,
+                        config: d.config
+                    }),
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    async: false,
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("添加歌曲成功");
+                            $('#songModalDialog').modal('hide');
+                            findSongList(company);
+                        } else {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                });
+            } else if (type == "edtSong") {
+                // console.log(d);
+                $.ajax({
+                    type: "post",
+                    url: serverIp + "/song/update",
+                    data: JSON.stringify({
+                        id: id,
+                        company: company,
+                        name: d.songName,
+                        no: d.songNo,
+                        songClassify: d.songClassify,
+                        classify: d.sucaiClassify,
+                        config: d.config
+                    }),
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    async: false,
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("修改歌曲成功");
+                            $('#songModalDialog').modal('hide');
+                            findSongList(company);
+                        } else {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                });
+            }
+        }
+
+        // 删除歌曲
+        $('#songTable tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 7);
+            var ID = str.slice(7);
+            if (idName == "dltSong") {
+                //删除歌曲
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/song/delete",
+                    data: { "id": ID },
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log("删除成功");
+                        findSongList(company);
+                    }
+                })
+            }
+        })
+
+        // 查询单个歌曲
+        function findSong(id) {
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/song/get/" + id,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    // console.log("查询单个歌曲");
+                    console.log(res);
+                    if (res.code === 0) {
+                        $('#songName').val(res.data.name);
+                        $('#songNo').val(res.data.no);
+                        $('#songClassify').val('');
+                        $('#sucaiClassify').val('');
+                        $('#materialName').val('');
+                        $('#config').val('');
+                    }
+                }
+            })
+        }
+        // 编辑、添加歌曲模态框
+        $('#songModalDialog').on('show.bs.modal', function (e) {
+            findAllOptions();
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#songModalDialog').css("zIndex", zIndex + 1);
+            type = $(e.relatedTarget).data("type");
+            if (type == "edtSong") {
+                $('#exampleModalLabel').text("编辑歌曲");
+                id = $(e.relatedTarget).data("id");
+                findSong(id);
+            } else if (type == "addSong") {
+                $('#songName').val('');
+                $('#songNo').val('');
+                $('#songClassify').val('');
+                $('#sucaiClassify').val('');
+                $('#materialName').val('');
+                $('#config').val('');
+            }
+        });
+
+        // 查询所有歌曲分类
+        function findAllSongClassify() {
+            var data = findAllList(7);
+            $('#songClassifySetting table tbody').empty();
+            for (let i = 0; i < data.length; i++) {
+                $('#songClassifySetting table tbody').append(`
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${data[i].name}</td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-id="${data[i].id}" data-toggle="modal"
+                            data-target="#t1-2" data-type="edtSong">修改</button>
+                        <button type="button" class="btn btn-danger" id="dltSong${data[i].id}">删除</button>
+                    </td>
+                <tr>`);
+            }
+        }
+
+        // 查询单个歌曲分类
+        function findSongClassify() {
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/song_classify/get/" + id,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    // console.log("查询单个歌曲分类");
+                    // console.log(res);
+                    if (res.code === 0) {
+                        $('#songClassifyName').val(res.data.name);
+                    }
+                }
+            })
+        }
+
+        // 查询单个、删除歌曲分类
+        $('#songClassifySetting table tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 7);
+            var id = str.slice(7);
+            if (idName == "dltSong") {
+                //删除歌曲分类
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/song_classify/delete",
+                    data: { "id": id },
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log("删除成功");
+                        findAllSongClassify();
+                        window.location.reload(true);
+                    }
+                })
+            }
+        })
+
+        // 新增、修改歌曲分类
+        function addandUpdateSong() {
+            var Songname = $('#songClassifyName').val();
+            if (Songname != '') {
+                if (type == "addSong") {
+                    // console.log("新增");
+                    $.ajax({
+                        type: "post",
+                        contentType: 'application/json; charset=UTF-8',
+                        url: serverIp + "/song_classify/add",
+                        data: JSON.stringify({ name: Songname }),
+                        dataType: "json",
+                        success: function (res) {
+                            // console.log(res);
+                            if (res.code === 0) {
+                                $('#t1-2').modal('hide');
+                                findAllSongClassify();
+                            }
+                        }
+                    })
+                } else if (type == "edtSong") {
+                    // console.log("修改");
+                    $.ajax({
+                        type: "post",
+                        contentType: 'application/json; charset=UTF-8',
+                        url: serverIp + "/song_classify/update",
+                        data: JSON.stringify({ id: id, name: Songname }),
+                        dataType: "json",
+                        success: function (res) {
+                            // console.log(res);
+                            if (res.code === 0) {
+                                $('#t1-2').modal('hide');
+                                findAllSongClassify();
+                            }
+                        }
+                    })
+                }
+            } else {
+                $('#t1-2').modal('hide');
+                findAllSongClassify();
+            }
+        }
+
+        $('#t1-2').on('show.bs.modal', function (e) {
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#t1-2').css("zIndex", zIndex + 1);
+            // console.log($(e.relatedTarget).data("type"));
+            type = $(e.relatedTarget).data("type");
+            if (type == "edtSong") {
+                $('#exampleModalLabel1-1').text("修改歌曲分类");
+                id = $(e.relatedTarget).data("id");
+                findSongClassify(id);
+            } else if (type == "addSong") {
+                $('#exampleModalLabel1-1').text("新增歌曲分类");
+                $('#songClassifyName').val('');
+            }
+        });
+
+        // 模态框居中
+        ModalDialog('songModalDialog');
+        ModalDialog('wangModal');
+        ModalDialog('songClassifySetting');
+        ModalDialog('t1-2');
+
+        // 提示模态框
+        $('#wangModal').on('shown.bs.modal', function (e) {
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#wangModal').css("zIndex", zIndex + 1);
+        });
+    </script>
+</body>
+
+</html>

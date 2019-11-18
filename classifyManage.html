@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>分类管理</title>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!--CUSTOM BASIC STYLES-->
+    <link href="assets/css/basic.css" rel="stylesheet" />
+    <!--CUSTOM MAIN STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/jquery.sPage.css" />
+    <link rel="stylesheet" href="assets/css/index.css" />
+</head>
+
+<body>
+    <div id="page-wrapper">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-2 align-right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#classifyModalDialog"
+                        data-type="addClassify">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="classifyList" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>ID</th>
+                                            <th>名称</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="Spage">
+                        <div id="myPage" class="demo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+    <!-- /. myModalDialog -->
+    <div class="modal fade bs-example-modal-sm" id="classifyModalDialog" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">新增分类</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="alert-contents">
+                            <div class="form-group form-inline alert-modal-sm">
+                                <label for="recipient-name" class="control-label">分类名称&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" id="classifyName" name="classifyName">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="submitClassify()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 警告提示模态框 -->
+    <div class="modal fade bs-example-modal-sm" id="wangModal" aria-hidden="true" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>提示</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="tipText">确定要关闭警告框信息？</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/jquery.sPage.js"></script>
+    <script src="assets/js/commont.js"></script>
+    <script type="text/javascript">
+        // 模态框
+        ModalDialog('classifyModalDialog');
+        ModalDialog('wangModal');
+
+        let data = '';
+        // 查询分页分类列表
+        findAllclassify();
+        function findAllclassify() {
+            // console.log("查询分页分类");
+            $.ajax({
+                type: "get",
+                url: serverIp + "/classify/page",
+                data: data,
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    // console.log("查询结果")
+                    // console.log(res);
+                    if (res.code === 0) {
+                        // console.log(res.data.records);
+                        // 调用分页插件
+                        $("#myPage").sPage({
+                            page: 1,//当前页码
+                            total: res.data.total,//数据总条数,后台返回
+                            backFun: function (page) {
+                                // console.log("点击分页按钮回调函数，返回当前页码");
+                                if (data == '') {
+                                    data = {};
+                                }
+                                data.current = page;
+                                // console.log(data.current);
+                                //点击分页按钮回调函数，返回当前页码
+                                $.ajax({
+                                    type: "get",
+                                    url: serverIp + "/classify/page",
+                                    data: data,
+                                    dataType: "json",
+                                    contentType: "application/json;charset=UTF-8",
+                                    success: function (res) {
+                                        // console.log(res);
+                                        if (res.code === 0) {
+                                            $('#classifyList tbody').empty();
+                                            var classifyList = res.data.records;
+                                            // console.log(classifyList);
+                                            for (let i = 0; i < classifyList.length; i++) {
+                                                $('#classifyList tbody').append(`
+                                                <tr>
+                                                    <td>${i + 1}</td>
+                                                    <td>${classifyList[i].id}</td>
+                                                    <td>${classifyList[i].name}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-info" data-id="${classifyList[i].id}" data-type="edtClassify" data-toggle="modal" data-target="#classifyModalDialog">编辑</button>
+                                                        <button type="button" class="btn btn-danger" id="dltClassify${classifyList[i].id}">删除</button>
+                                                    </td>
+                                                </tr>`);
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            })
+        }
+
+        let type = '';
+        let id = '';
+        // 添加、修改分类
+        $('#classifyModalDialog').on('show.bs.modal', function (e) {
+            type = $(e.relatedTarget).data('type');
+            if (type == "addClassify") {
+                $('#classifyName').val('');
+            } else if (type == "edtClassify") {
+                id = $(e.relatedTarget).data('id');
+                findClassify(id);
+            }
+        })
+
+        // 查询单个分类
+        function findClassify(id) {
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/classify/get/" + id,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code === 0) {
+                        $('#classifyName').val(res.data.name);
+                    }
+                }
+            })
+        }
+
+        // 新增、修改分类
+        function submitClassify() {
+            var d = [];
+            var t = $('form').serializeArray();
+            $.each(t, function () {
+                d[this.name] = this.value;
+            })
+            if (d.classifyName == '') {
+                $('.tipText').text("请填写分类名称");
+                $('#wangModal').modal('show');
+                return;
+            }
+            if (type == "addClassify") {
+                // console.log("新增");
+                $.ajax({
+                    type: "post",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/classify/add",
+                    data: JSON.stringify({
+                        name: d.classifyName
+                    }),
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("添加分类成功");
+                            $('#classifyModalDialog').modal('hide');
+                            findAllclassify();
+                        }
+                        if (res.code === -1) {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            } else if (type == "edtClassify") {
+                // console.log("修改");
+                $.ajax({
+                    type: "post",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/classify/update",
+                    data: JSON.stringify({
+                        id: id,
+                        name: d.classifyName
+                    }),
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("修改分类成功");
+                            $('#classifyModalDialog').modal('hide');
+                            findAllclassify();
+                        }
+                        if (res.code === -1) {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            }
+        }
+
+
+        // 查询单个、删除分类
+        $('#classifyList tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 11);
+            var id = str.slice(11);
+            if (idName == "dltClassify") {
+                //删除员工
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/classify/delete",
+                    data: { "id": id },
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.code === 0) {
+                            // console.log("删除成功");
+                            findAllclassify();
+                        }
+                        if (res.code === -1) {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

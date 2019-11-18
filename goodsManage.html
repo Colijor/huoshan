@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>商品管理</title>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!--CUSTOM BASIC STYLES-->
+    <link href="assets/css/basic.css" rel="stylesheet" />
+    <!--CUSTOM MAIN STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/jquery.sPage.css" />
+    <link rel="stylesheet" href="assets/css/index.css" />
+</head>
+
+<body>
+    <div id="page-wrapper">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-2 align-right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#goodsModalDialog"
+                        data-type="addGoods">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="goodsList" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>名称</th>
+                                            <th>型号</th>
+                                            <th>规格</th>
+                                            <th>单位</th>
+                                            <th>单价</th>
+                                            <th>进货</th>
+                                            <th>出货</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="Spage">
+                        <div id="myPage" class="demo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+    <!-- /. myModalDialog -->
+    <div class="modal fade" id="goodsModalDialog" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">新增商品</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="alert-contents">
+                            <div class="form-group form-inline alert-modal-sm">
+                                <label for="recipient-name" class="control-label">商品名称&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" id="goodsName" name="goodsName">
+                            </div>
+                            <div class="form-group form-inline alert-modal-sm">
+                                <label for="recipient-name" class="control-label">商品型号&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" id="goodsNo" name="goodsNo">
+                            </div>
+                            <div class="form-group form-inline alert-modal-sm">
+                                <label for="recipient-name" class="control-label">商品规格&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" id="goodsSize" name="goodsSize">
+                            </div>
+                            <div class="form-group form-inline alert-modal-sm">
+                                <label for="recipient-name" class="control-label">商品单位&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" id="goodsUnit" name="goodsUnit">
+                            </div>
+                            <div class="form-group form-inline alert-modal-sm">
+                                <label for="recipient-name" class="control-label">商品单价&nbsp;&nbsp;</label>
+                                <input type="number" class="form-control" id="goodsPrice" name="goodsPrice">
+                            </div>
+                            <div class="form-group form-inline alert-modal-sm">
+                                <label for="recipient-name" class="control-label">商品进货&nbsp;&nbsp;</label>
+                                <input type="number" class="form-control" id="goodsBuy" name="goodsBuy">
+                            </div>
+                            <div class="form-group form-inline alert-modal-sm">
+                                <label for="recipient-name" class="control-label">商品出货&nbsp;&nbsp;</label>
+                                <input type="number" class="form-control" id="goodsSell" name="goodsSell">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="submitGoods()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 警告提示模态框 -->
+    <div class="modal fade bs-example-modal-sm" id="wangModal" aria-hidden="true" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>提示</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="tipText">确定要关闭警告框信息？</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/jquery.sPage.js"></script>
+    <script src="assets/js/commont.js"></script>
+    <script type="text/javascript">
+        // 模态框
+        ModalDialog('goodsModalDialog');
+        ModalDialog('wangModal');
+
+        let data = '';
+        // 查询分页商品列表
+        findAllgoods();
+        function findAllgoods() {
+            // console.log("查询分页商品");
+            $.ajax({
+                type: "get",
+                url: serverIp + "/goods/page",
+                data: data,
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    // console.log("查询结果")
+                    // console.log(res);
+                    if (res.code === 0) {
+                        // console.log(res.data.records);
+                        // 调用分页插件
+                        $("#myPage").sPage({
+                            page: 1,//当前页码
+                            total: res.data.total,//数据总条数,后台返回
+                            backFun: function (page) {
+                                // console.log("点击分页按钮回调函数，返回当前页码");
+                                if (data == '') {
+                                    data = {};
+                                }
+                                data.current = page;
+                                // console.log(data.current);
+                                //点击分页按钮回调函数，返回当前页码
+                                $.ajax({
+                                    type: "get",
+                                    url: serverIp + "/goods/page",
+                                    data: data,
+                                    dataType: "json",
+                                    contentType: "application/json;charset=UTF-8",
+                                    success: function (res) {
+                                        // console.log(res);
+                                        if (res.code === 0) {
+                                            $('#goodsList tbody').empty();
+                                            var goodsList = res.data.records;
+                                            // console.log(goodsList);
+                                            for (let i = 0; i < goodsList.length; i++) {
+                                                $('#goodsList tbody').append(`
+                                                <tr>
+                                                    <td>${i + 1}</td>
+                                                    <td>${goodsList[i].name}</td>
+                                                    <td>${goodsList[i].no}</td>
+                                                    <td>${goodsList[i].size}</td>
+                                                    <td>${goodsList[i].unit}</td>
+                                                    <td>${goodsList[i].price}</td>
+                                                    <td>${goodsList[i].buy}</td>
+                                                    <td>${goodsList[i].sell}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-info" data-id="${goodsList[i].id}" data-type="edtGoods" data-toggle="modal" data-target="#goodsModalDialog">编辑</button>
+                                                        <button type="button" class="btn btn-danger" id="dltGoods${goodsList[i].id}">删除</button>
+                                                    </td>
+                                                </tr>`);
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            })
+        }
+
+        let type = '';
+        let id = '';
+        // 添加、修改商品
+        $('#goodsModalDialog').on('show.bs.modal', function (e) {
+            type = $(e.relatedTarget).data('type');
+            if (type == "addGoods") {
+                $('#goodsName').val('');
+                $('#goodsNo').val('');
+                $('#goodsSize').val('');
+                $('#goodsUnit').val('');
+                $('#goodsPrice').val('');
+                $('#goodsBuy').val('');
+                $('#goodsSell').val('');
+            } else if (type == "edtGoods") {
+                id = $(e.relatedTarget).data('id');
+                findGoods(id);
+            }
+        })
+
+        // 查询单个商品
+        function findGoods(id) {
+            $.ajax({
+                type: "get",
+                contentType: 'application/json; charset=UTF-8',
+                url: serverIp + "/goods/get/" + id,
+                data: "",
+                dataType: "json",
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code === 0) {
+                        $('#goodsName').val(res.data.name);
+                        $('#goodsNo').val(res.data.no);
+                        $('#goodsSize').val(res.data.size);
+                        $('#goodsUnit').val(res.data.unit);
+                        $('#goodsPrice').val(res.data.price);
+                        $('#goodsBuy').val(res.data.buy);
+                        $('#goodsSell').val(res.data.sell);
+                    }
+                }
+            })
+        }
+
+        // 新增、修改商品
+        function submitGoods() {
+            var d = [];
+            var t = $('form').serializeArray();
+            $.each(t, function () {
+                d[this.name] = this.value;
+            });
+            // console.log(d);
+            if (d.goodsName == '') {
+                $('.tipText').text("请填写商品名称");
+                $('#wangModal').modal('show');
+                return;
+            }else if(d.goodsNo == ''){
+                $('.tipText').text("请填写商品型号");
+                $('#wangModal').modal('show');
+                return;
+            }else if(d.goodsSize == ''){
+                $('.tipText').text("请填写商品规格");
+                $('#wangModal').modal('show');
+                return;
+            }else if(d.goodsUnit == ''){
+                $('.tipText').text("请填写商品单位");
+                $('#wangModal').modal('show');
+                return;
+            }else if(d.goodsPrice == ''){
+                $('.tipText').text("请填写商品价格");
+                $('#wangModal').modal('show');
+                return;
+            }else if(d.goodsBuy == ''){
+                $('.tipText').text("请填写商品进货量");
+                $('#wangModal').modal('show');
+                return;
+            }else if(d.goodsSell == ''){
+                $('.tipText').text("请填写商品出货量");
+                $('#wangModal').modal('show');
+                return;
+            }
+            if (type == "addGoods") {
+                // console.log("新增");
+                $.ajax({
+                    type: "post",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/goods/add",
+                    data: JSON.stringify({
+                        name: d.goodsName,
+                        no: d.goodsNo,
+                        size: d.goodsSize,
+                        unit: d.goodsUnit,
+                        price: d.goodsPrice,
+                        buy: d.goodsBuy,
+                        sell: d.goodsSell
+                    }),
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("添加商品成功");
+                            $('#goodsModalDialog').modal('hide');
+                            findAllgoods();
+                        }
+                        if (res.code === -1) {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            } else if (type == "edtGoods") {
+                // console.log("修改");
+                $.ajax({
+                    type: "post",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/goods/update",
+                    data: JSON.stringify({
+                        id: id,
+                        name: d.goodsName,
+                        no: d.goodsNo,
+                        size: d.goodsSize,
+                        unit: d.goodsUnit,
+                        price: d.goodsPrice,
+                        buy: d.goodsBuy,
+                        sell: d.goodsSell
+                    }),
+                    dataType: "json",
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("修改商品成功");
+                            $('#goodsModalDialog').modal('hide');
+                            findAllgoods();
+                        }
+                        if (res.code === -1) {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            }
+        }
+
+
+        // 查询单个、删除商品
+        $('#goodsList tbody').on('click', 'button', function (e) {
+            var str = e.target.id;
+            var idName = str.slice(0, 8);
+            var id = str.slice(8);
+            if (idName == "dltGoods") {
+                //删除员工
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json; charset=UTF-8',
+                    url: serverIp + "/goods/delete",
+                    data: { "id": id },
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.code === 0) {
+                            // console.log("删除成功");
+                            findAllgoods();
+                        }
+                        if (res.code === -1) {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>
