@@ -167,7 +167,7 @@
                                 for (let i = 0; i < pgWayList.length; i++) {
                                     $('#pgWayList tbody').append(`
                                     <tr>
-                                        <td>${i + 1}</td>
+                                        <td>${(i + 1)+(page-1)*10}</td>
                                         <td>${pgWayList[i].name}</td>
                                         <td>
                                             <button type="button" class="btn btn-info" data-id="${pgWayList[i].id}" data-type="edtWay" data-toggle="modal" data-target="#pgwayModalDialog">编辑</button>

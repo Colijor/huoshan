@@ -289,7 +289,7 @@
                                     dataType: "json",
                                     contentType: "application/json;charset=UTF-8",
                                     success: function (res) {
-                                        console.log(res);
+                                        //console.log(res);
                                         if (res.code === 0) {
                                             $('#sceneTable tbody').empty();
                                             var sceneList = res.data.records;
@@ -297,7 +297,7 @@
                                             for (let i = 0; i < sceneList.length; i++) {
                                                 $('#sceneTable tbody').append(`
                                                     <tr>
-                                                        <td>${i + 1}</td>
+                                                        <td>${(i + 1)+(page-1)*10}</td>
                                                         <td>${sceneList[i].name}</td>
                                                         <td>${sceneList[i].classify}</td>
                                                         <td>${sceneList[i].classifyId}</td>

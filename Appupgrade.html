@@ -299,7 +299,7 @@
                                             for (let i = 0; i < appList.length; i++) {
                                                 $('#appTable tbody').append(`
                                                 <tr>
-                                                    <td>${i + 1}</td>
+                                                    <td>${(i + 1)+(page-1)*10}</td>
                                                     <td>${appList[i].version}</td>
                                                     <td>${appList[i].name}</td>
                                                     <td>${appList[i].createTime}</td>

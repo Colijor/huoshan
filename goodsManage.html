@@ -211,7 +211,7 @@
                                             for (let i = 0; i < goodsList.length; i++) {
                                                 $('#goodsList tbody').append(`
                                                 <tr>
-                                                    <td>${i + 1}</td>
+                                                    <td>${(i + 1)+(page-1)*10}</td>
                                                     <td>${goodsList[i].name}</td>
                                                     <td>${goodsList[i].no}</td>
                                                     <td>${goodsList[i].size}</td>

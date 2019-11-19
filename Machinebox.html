@@ -375,7 +375,7 @@
                         for (let i = 0; i < boxList.length; i++) {
                             $('#boxTable tbody').append(`
                             <tr>
-                                <td>${i + 1}</td>
+                                <td>${(i + 1)+(page-1)*10}</td>
                                 <td>${boxList[i].serialNo}</td>
                                 <td>${boxList[i].mac}</td>
                                 <td>${boxList[i].channel}</td>

@@ -431,7 +431,7 @@
                                             for (let i = 0; i < songList.length; i++) {
                                                 $('#songTable tbody').append(`
                                             <tr>
-                                                <td>${i + 1}</td>
+                                                <td>${(i + 1)+(page-1)*10}</td>
                                                 <td>${songList[i].no}</td>
                                                 <td>${songList[i].name}</td>
                                                 <td>${songList[i].songClassify}</td>
