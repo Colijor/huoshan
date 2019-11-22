@@ -263,7 +263,7 @@ a:hover{
     visibility: hidden;
 }
 
-.configTxt,.previewUrl{
+.configTxt,.configTxt2,.previewUrl{
     max-width: 180px;
     overflow: hidden;
     white-space: nowrap;

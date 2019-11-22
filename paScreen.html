@@ -144,6 +144,48 @@
         </div>
     </div>
 
+    <div class="modal fade bs-example-modal-sm" id="bpModalDialog2" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">编辑霸屏</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="alert-content">
+                            <div class="alert-left">
+                                <div class="form-group form-inline">
+                                    <label for="recipient-name" class="control-label">霸屏名称&nbsp;&nbsp;</label>
+                                    <input type="text" class="form-control" name="bpName2" id="bpName2">
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="recipient-name" class="control-label">收费模式&nbsp;&nbsp;</label>
+                                    <select class="form-control" name="shoufeiMode2" id="shoufeiMode2">
+                                        <option class="form-control" value="" selected>请选择收费模式</option>
+                                        <option class="form-control" value="1">免费</option>
+                                        <option class="form-control" value="0">收费</option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="recipient-name" class="control-label">适配通道&nbsp;&nbsp;</label>
+                                    <select class="form-control" name="pgway2" id="pgway2" disabled>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="submitBp2()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 上传图片 -->
     <div class="modal fade" id="bpImgModalDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -245,6 +287,14 @@
                 <option class="form-control" value=${pgWayList[i].id}>${pgWayList[i].name}</option>
                 `);
             }
+
+            $('#pgway2').empty();
+            $('#pgway2').append(`<option class="form-control"  value='' selected>请选择通道</option></option>`);
+            for (let i = 0; i < pgWayList.length; i++) {
+                $('#pgway2').append(`
+                <option class="form-control" value=${pgWayList[i].id}>${pgWayList[i].name}</option>
+                `);
+            }
         }
 
         // 搜索内容
@@ -326,7 +376,7 @@
                                                     <td style="color: ${bpList[i].free == 0 ? 'green' : 'red'}">${bpList[i].free == 0 ? '收费' : '免费'}</td>
                                                     <td>${bpList[i].channel}</td>
                                                     <td>
-                                                        <button type="button" class="btn btn-info" data-id="${bpList[i].id}" data-type="edtBp" data-toggle="modal" data-target="#bpModalDialog">编辑</button>
+                                                        <button type="button" class="btn btn-info" data-id="${bpList[i].id}" data-type="edtBp" data-toggle="modal" data-target="#bpModalDialog2">编辑</button>
                                                         <button type="button" class="btn btn-info" data-id="${bpList[i].id}" data-type="addImg" data-toggle="modal" data-target="#bpImgModalDialog">上传图片</button>
                                                         <button type="button" class="btn btn-danger" id="dltBp${bpList[i].id}">删除</button>
                                                     </td>
@@ -430,16 +480,37 @@
                         }
                     }
                 });
-            } else if (type == "edtBp") {
+            }
+        }
+
+        function submitBp2() {
+            var d = {};
+            var t = $('form').serializeArray();
+            $.each(t, function () {
+                d[this.name] = this.value;
+            });
+            //console.log(d);
+            for (let key in d) {
+                if (key == "bpName2" && d[key] == '') {
+                    $('.tipText').text("请输入霸屏名称");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "shoufeiMode2" && d[key] == '') {
+                    $('.tipText').text("请选择收费模式");
+                    $('#wangModal').modal('show');
+                    return;
+                }
+            }
+            if (type == "edtBp") {
                 // console.log(d);
                 $.ajax({
                     type: "post",
                     url: serverIp + "/mask_screen/update",
                     data: JSON.stringify({
                         id: id,
-                        name: d.bpName,
-                        free: d.shoufeiMode,
-                        channel: d.pgway
+                        name: d.bpName2,
+                        free: d.shoufeiMode2,
+                        channel: d.pgway2
                     }),
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
@@ -448,7 +519,7 @@
                         //console.log(res);
                         if (res.code === 0) {
                             // console.log("修改霸屏成功");
-                            $('#bpModalDialog').modal('hide');
+                            $('#bpModalDialog2').modal('hide');
                             getPagepaScreen('');
                         } else {
                             $('.tipText').text(res.message);
@@ -492,9 +563,9 @@
                     //console.log("查询单个霸屏");
                     //console.log(res);
                     if (res.code === 0) {
-                        $('#bpName').val(res.data.name);
-                        $('#shoufeiMode').val(res.data.free);
-                        $('#pgway').val(res.data.channel);
+                        $('#bpName2').val(res.data.name);
+                        $('#shoufeiMode2').val(res.data.free);
+                        $("#pgway2 option[value='" + res.data.channel + "']").attr("selected", "selected");
                     }
                 }
             })
@@ -521,21 +592,28 @@
             })
         }
 
-        // 编辑、添加霸屏模态框
+        // 添加霸屏模态框
         $('#bpModalDialog').on('show.bs.modal', function (e) {
             findAllOptions();
             var zIndex = Number($('.modal').css('z-index'));
             $('#bpModalDialog').css("zIndex", zIndex + 1);
             type = $(e.relatedTarget).data("type");
+            if (type == "addBp") {
+                $('#bpName').val('');
+                $('#shoufeiMode').val('');
+                $('#pgway').val('');
+            }
+        });
+
+        // 编辑霸屏模态框
+        $('#bpModalDialog2').on('show.bs.modal', function (e) {
+            findAllOptions();
+            var zIndex = Number($('.modal').css('z-index'));
+            $('#bpModalDialog2').css("zIndex", zIndex + 1);
+            type = $(e.relatedTarget).data("type");
             if (type == "edtBp") {
-                $('#exampleModalLabel').text("编辑霸屏");
                 id = $(e.relatedTarget).data("id");
                 findBp(id);
-            } else if (type == "addBp") {
-                $('#exampleModalLabel').text("新增霸屏");
-                $('#bpName').val('');
-                $('#shoufeiMode').val(2);
-                $('#pgway').val('');
             }
         });
 
@@ -553,6 +631,7 @@
 
         // 模态框居中
         ModalDialog('bpModalDialog');
+        ModalDialog('bpModalDialog2');
         ModalDialog('bpImgModalDialog');
         ModalDialog('wangModal');
 
