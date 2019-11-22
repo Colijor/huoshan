@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请输入你要搜索的素材名称" id="searchInput">
+                        <input type="text" class="form-control" placeholder="请输入你要搜索的素材名称" id="searchInput" onkeydown="if(event.keyCode==13)searchMaterial()">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" onclick="searchMaterial()">搜索</button>
                         </span>
@@ -266,11 +266,21 @@
                 data = { "classify": Allclassify };
                 // 搜索分类
             } else if (Allclassify == 0 && searchContent != '') {
-                data = { "name": searchContent };
-                // 搜索素材名称
+                var pattern = new RegExp("[0-9]+");
+                if(pattern.test(searchContent)){
+                    data = { "no": searchContent };
+                }else{
+                    data = { "name": searchContent };
+                }
+                // 搜索素材名称或素材编号
             } else if (Allclassify != 0 && searchContent != '') {
+                var pattern = new RegExp("[0-9]+");
+                if(pattern.test(searchContent)){
+                data = { "classify": Allclassify, "no": searchContent };
+                }else{
                 data = { "classify": Allclassify, "name": searchContent };
-                // 搜索分类和搜索素材名称
+                }
+                // 搜索分类和搜索素材名称或素材编号
             }
             getPageMaterial(data);
         }

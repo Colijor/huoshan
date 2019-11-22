@@ -49,8 +49,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="请输入你要搜索的歌曲"
-                                            id="searchInput">
+                                        <input type="text" class="form-control" placeholder="请输入你要搜索的歌曲名称或编号"
+                                            id="searchInput" onkeydown="if(event.keyCode==13)searchSong()">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button"
                                                 onclick="searchSong()">搜索</button>
@@ -374,10 +374,19 @@
                 data = { "company": company, "songClassify": Allclassify };
                 // 搜索分类
             } else if (Allclassify == 0 && searchContent != '') {
-                data = { "company": company, "name": searchContent };
+                var pattern = new RegExp("[0-9]+");
+                if(pattern.test(searchContent)){
+                    data = { "company": company, "no": searchContent };
+                }else{
+                    data = { "company": company, "name": searchContent };
+                }
                 // 搜索歌曲名称
             } else if (Allclassify != 0 && searchContent != '') {
-                data = { "company": company, "songClassify": Allclassify, "name": searchContent };
+                if(pattern.test(searchContent)){
+                    data = { "company": company, "songClassify": Allclassify, "no": searchContent };
+                }else{
+                    data = { "company": company, "songClassify": Allclassify, "name": searchContent };
+                }
                 // 搜索分类和搜索歌曲名称
             }
             getPageSong(data);

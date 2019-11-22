@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请输入你要搜索的霸屏" id="searchInput">
+                        <input type="text" class="form-control" placeholder="请输入你要搜索的霸屏" id="searchInput" onkeydown="if(event.keyCode==13)searchBp()">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" onclick="searchBp()">搜索</button>
                         </span>
