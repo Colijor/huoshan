@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>场景管理</title>
+    <title>特效管理</title>
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
     <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
     <!--[if lt IE 9]>
@@ -35,22 +35,23 @@
                 <div class="col-md-4">
                     <div class="row" style="margin-top: 0;">
                         <div class="col-md-6 col-md-offset-3">
-                            <select class="form-control" name="Allclassify" id="Allclassify" onchange="searchScene()">
+                            <select class="form-control" name="Allclassify" id="Allclassify" onchange="searchSpecial()">
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请输入你要搜索的场景名称或txt文件名" id="searchInput" onkeydown="if(event.keyCode==13)searchScene()">
+                        <input type="text" class="form-control" placeholder="请输入你要搜索的特效编号或名称" id="searchInput"
+                            onkeydown="if(event.keyCode==13)searchSpecial()">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" onclick="searchScene()">搜索</button>
+                            <button class="btn btn-default" type="button" onclick="searchSpecial()">搜索</button>
                         </span>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalDialog"
-                        data-type="addScene">
+                        data-type="addSpecial">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增
                     </button>
                 </div>
@@ -62,15 +63,15 @@
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table id="sceneTable" class="table table-striped table-bordered table-hover">
+                                <table id="specialTable" class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>场景名称</th>
-                                            <th>分类</th>
-                                            <th>分类ID</th>
+                                            <th>特效编号</th>
+                                            <th>特效名称</th>
                                             <th>通道数</th>
                                             <th>图片</th>
+                                            <th>收费模式</th>
+                                            <th>文件名</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
@@ -100,7 +101,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">新增场景</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">新增特效</h4>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -108,18 +109,30 @@
                             <div class="alert-content-top">
                                 <div class="alert-left">
                                     <div class="form-group form-inline">
-                                        <label for="recipient-name" class="control-label">场景名称&nbsp;&nbsp;</label>
-                                        <input type="text" class="form-control" name="name" id="name">
+                                        <label for="recipient-name" class="control-label">特效编号&nbsp;&nbsp;</label>
+                                        <input type="text" class="form-control" name="number" id="number">
                                     </div>
                                     <div class="form-group form-inline">
-                                        <label for="recipient-name" class="control-label">所属分类&nbsp;&nbsp;</label>
-                                        <select class="form-control" name="classify" id="classify">
-                                        </select>
+                                        <label for="recipient-name" class="control-label">特效名称&nbsp;&nbsp;</label>
+                                        <input type="text" class="form-control" name="name" id="name">
                                     </div>
                                     <div class="form-group form-inline">
                                         <label for="recipient-name" class="control-label">适配通道&nbsp;&nbsp;</label>
                                         <select class="form-control" name="pgway" id="pgway">
                                         </select>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">收费模式&nbsp;&nbsp;</label>
+                                        <select class="form-control" name="freeMode" id="freeMode">
+                                            <option class="form-control" value="" selected>请选择收费模式</option>
+                                            <option class="form-control" value=0>免费</option>
+                                            <option class="form-control" value=1>收费</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name"
+                                            class="control-label">文件名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <input type="text" class="form-control" name="fileName" id="fileName">
                                     </div>
                                 </div>
                                 <div class="alert-right">
@@ -131,7 +144,7 @@
                                                     <img src="/images/upload.jpg" id="img2" />
                                                 </div>
                                                 <input type="file" id="file" class="filepath"
-                                                    onchange="uploadScene(this)"
+                                                    onchange="uploadSpecial(this)"
                                                     accept="image/jpg,image/jpeg,image/png,image/PNG">
                                             </div>
                                         </div>
@@ -139,24 +152,12 @@
                                     </form>
                                 </div>
                             </div>
-                            <!-- <form id="txtform" enctype="multipart/form-data">
-                                <div id="imgPreview2">
-                                    <div>配置文件</div>
-                                    <div id="prompt2">
-                                        <div id="imgSpan">
-                                            <div class="configTxt"></div>
-                                        </div>
-                                        <input type="file" id="fileTxt" class="filepath" onchange="uploadfileText(this)"
-                                            accept=".txt">
-                                    </div>
-                                </div>
-                            </form> -->
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="submitScene()">提交</button>
+                    <button type="button" class="btn btn-primary" onclick="submitSpecial()">提交</button>
                 </div>
             </div>
         </div>
@@ -168,7 +169,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">编辑场景</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">编辑特效</h4>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -176,18 +177,29 @@
                             <div class="alert-content-top">
                                 <div class="alert-left">
                                     <div class="form-group form-inline">
-                                        <label for="recipient-name" class="control-label">场景名称&nbsp;&nbsp;</label>
-                                        <input type="text" class="form-control" name="name2" id="name2">
+                                        <label for="recipient-name" class="control-label">特效编号&nbsp;&nbsp;</label>
+                                        <input type="text" class="form-control" name="number2" id="number2">
                                     </div>
                                     <div class="form-group form-inline">
-                                        <label for="recipient-name" class="control-label">所属分类&nbsp;&nbsp;</label>
-                                        <select class="form-control" name="classify2" id="classify2">
-                                        </select>
+                                        <label for="recipient-name" class="control-label">特效名称&nbsp;&nbsp;</label>
+                                        <input type="text" class="form-control" name="name2" id="name2">
                                     </div>
                                     <div class="form-group form-inline">
                                         <label for="recipient-name" class="control-label">适配通道&nbsp;&nbsp;</label>
                                         <select class="form-control" name="pgway2" id="pgway2" disabled>
                                         </select>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">收费模式&nbsp;&nbsp;</label>
+                                        <select class="form-control" name="freeMode2" id="freeMode2">
+                                            <option class="form-control" value="" selected>请选择收费模式</option>
+                                            <option class="form-control" value=0>免费</option>
+                                            <option class="form-control" value=1>收费</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label for="recipient-name" class="control-label">文件名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <input type="text" class="form-control" name="fileName2" id="fileName2">
                                     </div>
                                 </div>
                                 <div class="alert-right">
@@ -199,7 +211,7 @@
                                                     <img src="/images/upload.jpg" class="img2" />
                                                 </div>
                                                 <input type="file" id="file2" class="filepath"
-                                                    onchange="uploadScene2(this)"
+                                                    onchange="uploadSpecial2(this)"
                                                     accept="image/jpg,image/jpeg,image/png,image/PNG">
                                             </div>
                                         </div>
@@ -207,24 +219,12 @@
                                     </form>
                                 </div>
                             </div>
-                            <!-- <form id="txtform" enctype="multipart/form-data">
-                                <div id="imgPreview2">
-                                    <div>配置文件</div>
-                                    <div id="prompt2">
-                                        <div id="imgSpan">
-                                            <div class="configTxt2"></div>
-                                        </div>
-                                        <input type="file" id="fileTxt2" class="filepath"
-                                            onchange="uploadfileText2(this)" accept=".txt">
-                                    </div>
-                                </div>
-                            </form> -->
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="submitScene2()">提交</button>
+                    <button type="button" class="btn btn-primary" onclick="submitSpecial2()">提交</button>
                 </div>
             </div>
         </div>
@@ -258,26 +258,14 @@
     <script src="assets/js/jquery.sPage.js"></script>
     <script src="assets/js/commont.js"></script>
     <script type="text/javascript">
-
         let type = '';
         let id = '';
 
         // 分类6
-        var classifyList = findAllList(6);
         var pgWayList = findAllList(4);
 
         // 查询下拉选项并渲染
         function findAllOptions() {
-            // console.log("分类下拉")
-            // console.log(classifyList);
-            $('#classify').empty();
-            $('#classify').append(`<option class="form-control"  value='' selected>请选择分类</option></option>`);
-            for (let i = 0; i < classifyList.length; i++) {
-                $('#classify').append(`
-                <option class="form-control" value=${classifyList[i].id}>${classifyList[i].name}</option>
-                `);
-            }
-
             $('#pgway').empty();
             $('#pgway').append(`<option class="form-control"  value='' selected>请选择通道</option></option>`);
             for (let i = 0; i < pgWayList.length; i++) {
@@ -286,13 +274,6 @@
                 `);
             }
 
-            $('#classify2').empty();
-            $('#classify2').append(`<option class="form-control"  value='' selected>请选择分类</option></option>`);
-            for (let i = 0; i < classifyList.length; i++) {
-                $('#classify2').append(`
-                <option class="form-control" value=${classifyList[i].id}>${classifyList[i].name}</option>
-                `);
-            }
             $('#pgway2').empty();
             $('#pgway2').append(`<option class="form-control"  value='' selected>请选择通道</option></option>`);
             for (let i = 0; i < pgWayList.length; i++) {
@@ -304,21 +285,22 @@
 
         // 搜索分类下拉选项
         searchAllclassify();
+
         function searchAllclassify() {
             $('#Allclassify').empty();
-            $('#Allclassify').append(`<option class="form-control"  value='' selected>请选择分类</option></option>`);
-            for (let i = 0; i < classifyList.length; i++) {
+            $('#Allclassify').append(`<option class="form-control"  value='' selected>请选择通道</option></option>`);
+            for (let i = 0; i < pgWayList.length; i++) {
                 $('#Allclassify').append(`
-                <option class="form-control" value=${classifyList[i].id}>${classifyList[i].name}</option>
+                <option class="form-control" value=${pgWayList[i].id}>${pgWayList[i].name}</option>
                 `);
             }
         }
 
         // 搜索内容
         let data = '';
-        getPageScene(data);
+        getPageSpecial(data);
 
-        function searchScene() {
+        function searchSpecial() {
             var Allclassify = $("#Allclassify option:selected").val();
             var searchContent = $('#searchInput').val();
             // console.log(Allclassify);
@@ -327,44 +309,56 @@
                 data = '';
                 // 搜索全部
             } else if (Allclassify != 0 && searchContent == '') {
-                data = { "classify": Allclassify };
+                data = {
+                    "channel": Allclassify
+                };
                 // 搜索分类
             } else if (Allclassify == 0 && searchContent != '') {
                 var pattern = new RegExp("[0-9]+");
-                if(pattern.test(searchContent)){
-                    data = { "config": searchContent };
-                }else{
-                    data = { "name": searchContent };
+                if (pattern.test(searchContent)) {
+                    data = {
+                        "no": searchContent
+                    };
+                } else {
+                    data = {
+                        "name": searchContent
+                    };
                 }
                 // 搜索素材名称
             } else if (Allclassify != 0 && searchContent != '') {
                 var pattern = new RegExp("[0-9]+");
-                if(pattern.test(searchContent)){
-                    data = { "classify": Allclassify, "config": searchContent };
-                }else{
-                    data = { "classify": Allclassify, "name": searchContent };
+                if (pattern.test(searchContent)) {
+                    data = {
+                        "channel": Allclassify,
+                        "no": searchContent
+                    };
+                } else {
+                    data = {
+                        "channel": Allclassify,
+                        "name": searchContent
+                    };
                 }
             }
-            getPageScene(data);
+            getPageSpecial(data);
         }
 
         // 获取分页素材
-        function getPageScene(data) {
+        function getPageSpecial(data) {
             // console.log(data);
             $.ajax({
                 type: "get",
-                url: serverIp + "/scene/page",
+                url: serverIp + "/special/page",
                 data: data,
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
                 success: function (res) {
-                    //console.log(res);
+                    // console.log(res);
                     if (res.code === 0) {
                         // console.log(res.data.records);
                         // 调用分页插件
                         $("#myPage").sPage({
-                            page: 1,//当前页码
-                            total: res.data.total,//数据总条数,后台返回
+                            page: 1, //当前页码
+                            total: res.data.total, //数据总条数,后台返回
                             backFun: function (page) {
                                 // console.log("点击分页按钮回调函数，返回当前页码");
                                 if (data == '') {
@@ -375,33 +369,32 @@
                                 //点击分页按钮回调函数，返回当前页码
                                 $.ajax({
                                     type: "get",
-                                    url: serverIp + "/scene/page",
+                                    url: serverIp + "/special/page",
                                     data: data,
                                     dataType: "json",
                                     contentType: "application/json;charset=UTF-8",
                                     success: function (res) {
                                         //console.log(res);
                                         if (res.code === 0) {
-                                            $('#sceneTable tbody').empty();
-                                            var sceneList = res.data.records;
-                                            // console.log(sceneList);
-                                            for (let i = 0; i < sceneList.length; i++) {
-                                                $('#sceneTable tbody').append(`
+                                            $('#specialTable tbody').empty();
+                                            var specialList = res.data.records;
+                                            for (let i = 0; i < specialList
+                                                .length; i++) {
+                                                $('#specialTable tbody').append(`
                                                     <tr>
-                                                        <td>${(i + 1) + (page - 1) * 10}</td>
-                                                        <td>${sceneList[i].name}</td>
-                                                        <td>${sceneList[i].classify}</td>
-                                                        <td>${sceneList[i].classifyId}</td>
-                                                        <td>${sceneList[i].channel}</td>
+                                                        <td>${specialList[i].no}</td>
+                                                        <td>${specialList[i].name}</td>
+                                                        <td>${specialList[i].channelName}</td>
                                                         <td>
-                                                            <img src="${sceneList[i].url}" alt="..." class="img-thumbnail">
+                                                            <img src="${specialList[i].image}" alt="..." class="img-thumbnail">
                                                         </td>
+                                                        <td style="color: ${specialList[i].free == 0 ? 'red' : 'green'}">${specialList[i].free == 0 ? '免费' : '收费'}</td>
+                                                        <td>${specialList[i].fileName}</td>
                                                         <td>
-                                                            <button type="button" class="btn btn-info" data-id="${sceneList[i].id}" data-type="edtScene" data-toggle="modal" data-target="#myModalDialog2">编辑</button>
-                                                            <button type="button" class="btn btn-danger" id="dltScene${sceneList[i].id}">删除</button>
+                                                            <button type="button" class="btn btn-info" data-id="${specialList[i].id}" data-type="edtSpecial" data-toggle="modal" data-target="#myModalDialog2">编辑</button>
+                                                            <button type="button" class="btn btn-danger" id="dltSpecial${specialList[i].id}">删除</button>
                                                         </td>
-                                                    </tr>`
-                                                );
+                                                    </tr>`);
                                             }
                                         }
                                     }
@@ -415,8 +408,8 @@
 
         /**
          * 1.上传下载图片
-        */
-        function uploadScene() {
+         */
+        function uploadSpecial() {
             let f = document.getElementById('file').files[0];
             // console.log(f);
             let imgSize = f.size;
@@ -431,16 +424,16 @@
                 }
                 $.ajax({
                     type: "post",
-                    url: serverIp + "/scene/upload",
+                    url: serverIp + "/special/upload",
                     data: formdata,
                     dataType: "json",
                     cache: false,
-                    contentType: false,//默认: "application/x-www-form-urlencoded" 
-                    processData: false,//设置 processData 选项为 false，防止自动转换数据格式 
+                    contentType: false, //默认: "application/x-www-form-urlencoded" 
+                    processData: false, //设置 processData 选项为 false，防止自动转换数据格式 
                     success: function (res) {
                         // console.log(res);
                         if (res.code === 0) {
-                            // console.log("上传场景预览图成功");
+                            // console.log("上传特效预览图成功");
                             document.getElementById('img3').src = res.data;
                             $("#imgSpan #img2").css("display", "none");
                             $("#img3").css("display", "block");
@@ -453,7 +446,7 @@
             }
         }
 
-        function uploadScene2() {
+        function uploadSpecial2() {
             let f = document.getElementById('file2').files[0];
             // console.log(f);
             let imgSize = f.size;
@@ -468,19 +461,19 @@
                 }
                 $.ajax({
                     type: "post",
-                    url: serverIp + "/scene/upload",
+                    url: serverIp + "/special/upload",
                     data: formdata,
                     dataType: "json",
                     cache: false,
-                    contentType: false,//默认: "application/x-www-form-urlencoded" 
-                    processData: false,//设置 processData 选项为 false，防止自动转换数据格式 
+                    contentType: false, //默认: "application/x-www-form-urlencoded" 
+                    processData: false, //设置 processData 选项为 false，防止自动转换数据格式 
                     success: function (res) {
                         // console.log(res);
                         if (res.code === 0) {
-                            // console.log("上传场景预览图成功");
+                            // console.log("上传特效预览图成功");
                             document.getElementById('previewImg').src = res.data;
                             $("#imgSpan .img2").css("display", "none");
-                            $('#previewImg').css("dispalay","block");
+                            $('#previewImg').css("dispalay", "block");
                         } else {
                             $('.tipText').text(res.message);
                             $('#wangModal').modal('show');
@@ -490,87 +483,67 @@
             }
         }
 
-
-        // 上传配置文件
-        // function uploadfileText() {
-        //     let f = document.getElementById('fileTxt').files[0];
-        //     // console.log(f);
-        //     let imgSize = f.size;
-        //     if (imgSize > 1024 * 1024 * 10) {
-        //         $('.tipText').text("上传图片不能超过10M");
-        //         $('#wangModal').modal('show');
-        //         return;
-        //     } else {
-        //         let formdata = new FormData();
-        //         if (f != "") {
-        //             formdata.append('file', f);
-        //         }
-        //         $.ajax({
-        //             type: "post",
-        //             url: serverIp + "/scene/uploadConfig",
-        //             data: formdata,
-        //             dataType: "json",
-        //             cache: false,
-        //             contentType: false,//默认: "application/x-www-form-urlencoded" 
-        //             processData: false,//设置 processData 选项为 false，防止自动转换数据格式 
-        //             success: function (res) {
-        //                 // console.log(res);
-        //                 if (res.code === 0) {
-        //                     // console.log("上传配置文件成功");
-        //                     $('.configTxt').text(res.data);
-        //                 } else {
-        //                     $('.tipText').text(res.message);
-        //                     $('#wangModal').modal('show');
-        //                 }
-        //             }
-        //         })
-        //     }
-        // }
-
-        function submitScene() {
+        function submitSpecial() {
             var d = {};
             var t = $('form').serializeArray();
             var picUrl = $('#img3').attr('src');
-            //console.log(picUrl);
-            t.push({ "name": "url", "value": picUrl });
+            t.push({
+                "name": "url",
+                "value": picUrl
+            });
             $.each(t, function () {
                 d[this.name] = this.value;
             });
-            //console.log(d);
+            // console.log(d);
+            // console.log(type);
             for (let key in d) {
-                if (key == "url" && d[key] == '') {
-                    $('.tipText').text("请上传场景图片");
+                if (key == "no" && d[key] == '') {
+                    $('.tipText').text("请输入特效编号");
                     $('#wangModal').modal('show');
                     return;
                 } else if (key == "name" && d[key] == '') {
-                    $('.tipText').text("请输入场景名称");
+                    $('.tipText').text("请输入特效名称");
                     $('#wangModal').modal('show');
                     return;
-                } else if (key == "classify" && d[key] == '') {
-                    $('.tipText').text("请选择所属分类");
+                } else if (key == "url" && d[key] == '') {
+                    $('.tipText').text("请上传特效预览图片");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "channel" && d[key] == '') {
+                    $('.tipText').text("请选择适配通道");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "fileName" && d[key] == '') {
+                    $('.tipText').text("请输入特效文件名");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "freeMode" && d[key] == '') {
+                    $('.tipText').text("请选择收费模式");
                     $('#wangModal').modal('show');
                     return;
                 }
             }
-            if (type == "addScene") {
+            if (type == "addSpecial") {
                 $.ajax({
                     type: "post",
-                    url: serverIp + "/scene/add",
+                    url: serverIp + "/special/add",
                     data: JSON.stringify({
-                        classify: d.classify,
+                        no: d.number,
                         name: d.name,
                         channel: d.pgway,
-                        url: d.url
+                        image: d.url,
+                        fileName: d.fileName,
+                        free: d.freeMode
                     }),
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
                     async: false,
                     success: function (res) {
-                        //console.log(res);
+                        // console.log(res);
                         if (res.code === 0) {
                             // console.log("添加素材成功");
                             $('#myModalDialog').modal('hide');
-                            getPageScene('');
+                            getPageSpecial('');
                             // document.getElementById('img3').src = data.data;
                             // $("#img3").css("display", "block");
                         } else {
@@ -582,42 +555,54 @@
             }
         }
 
-        function submitScene2() {
+        function submitSpecial2() {
             var d = {};
             var t = $('form').serializeArray();
             var picUrl = $('#previewImg').attr('src');
             //console.log(picUrl);
-            t.push({ "name": "url", "value": picUrl });
+            t.push({
+                "name": "url",
+                "value": picUrl
+            });
             $.each(t, function () {
                 d[this.name] = this.value;
             });
-            console.log(d);
+            // console.log(d);
             for (let key in d) {
                 if (key == "url" && d[key] == '') {
-                    $('.tipText').text("请上传场景图片");
+                    $('.tipText').text("请上传特效图片");
                     $('#wangModal').modal('show');
                     return;
                 } else if (key == "name2" && d[key] == '') {
-                    $('.tipText').text("请输入场景名称");
+                    $('.tipText').text("请输入特效名称");
                     $('#wangModal').modal('show');
                     return;
-                } else if (key == "classify2" && d[key] == '') {
-                    $('.tipText').text("请选择所属分类");
+                } else if (key == "number2" && d[key] == '') {
+                    $('.tipText').text("请输入特效编号");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "fileName2" && d[key] == '') {
+                    $('.tipText').text("请上传特效文件名");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "freeMode2" && d[key] == '') {
+                    $('.tipText').text("请选择收费模式");
                     $('#wangModal').modal('show');
                     return;
                 }
             }
-            if (type == "edtScene") {
-                console.log(d);
+            if (type == "edtSpecial") {
+                // console.log(d);
                 $.ajax({
                     type: "post",
-                    url: serverIp + "/scene/update",
+                    url: serverIp + "/special/update",
                     data: JSON.stringify({
                         id: id,
-                        classify: d.classify2,
+                        no: d.number2,
                         name: d.name2,
-                        channel: d.pgway2,
-                        url: d.url
+                        image: d.url,
+                        fileName: d.fileName2,
+                        free: d.freeMode2
                     }),
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
@@ -627,7 +612,7 @@
                         if (res.code === 0) {
                             // console.log("修改素材成功");
                             $('#myModalDialog2').modal('hide');
-                            getPageScene('');
+                            getPageSpecial('');
                         } else {
                             $('.tipText').text(res.message);
                             $('#wangModal').modal('show');
@@ -638,74 +623,80 @@
         }
 
         // 删除素材
-        $('#sceneTable tbody').on('click', 'button', function (e) {
+        $('#specialTable tbody').on('click', 'button', function (e) {
             var str = e.target.id;
-            var idName = str.slice(0, 8);
-            var ID = str.slice(8);
-            if (idName == "dltScene") {
+            var idName = str.slice(0, 10);
+            var ID = str.slice(10);
+            if (idName == "dltSpecial") {
                 //删除素材
                 $.ajax({
                     type: "get",
                     contentType: 'application/json; charset=UTF-8',
-                    url: serverIp + "/scene/delete",
-                    data: { "id": ID },
+                    url: serverIp + "/special/delete",
+                    data: {
+                        "id": ID
+                    },
                     dataType: "json",
                     success: function (res) {
                         // console.log("删除成功");
-                        getPageScene('');
+                        getPageSpecial('');
                     }
                 })
             }
         })
 
         // 查询单个素材
-        function findScene(id) {
+        function findSpecial(id) {
             $.ajax({
                 type: "get",
                 contentType: 'application/json; charset=UTF-8',
-                url: serverIp + "/scene/get/" + id,
+                url: serverIp + "/special/get/" + id,
                 data: "",
                 dataType: "json",
                 success: function (res) {
-                    //console.log("查询单个素材");
-                    //console.log(res);
+                    // console.log("查询单个素材");
+                    // console.log(res);
                     if (res.code === 0) {
+                        $('#number2').val(res.data.no);
                         $('#name2').val(res.data.name);
-                        $("#classify2 option[value='"+res.data.classify+"']").attr("selected", "selected");
                         $("#pgway2 option[value='" + res.data.channel + "']").attr("selected", "selected");
+                        $("#freeMode2 option[value='" + res.data.free + "']").attr("selected", "selected");
+                        $('#fileName2').val(res.data.fileName);
                         $('.img2').css("display", "none");
-                        $('#previewImg')[0].src = res.data.url;
+                        $('#previewImg')[0].src = res.data.image;
                         $('#previewImg').css("display", "block");
                     }
                 }
             })
         }
 
-        // 编辑、添加场景模态框
+        // 编辑、添加特效模态框
         $('#myModalDialog').on('show.bs.modal', function (e) {
             findAllOptions();
             var zIndex = Number($('.modal').css('z-index'));
             $('#myModalDialog').css("zIndex", zIndex + 1);
             type = $(e.relatedTarget).data("type");
-            if (type == "addScene") {
+            if (type == "addSpecial") {
                 $('#name').val('');
-                $('#classify').val('');
+                $('#number').val('');
                 $('#pgway').val('');
+                $('#freeMode').val('');
+                $('#fileName').val('');
                 $('#img2').css("display", "block");
                 $('#img3')[0].src = '';
                 $('#img3').css("display", "none");
             }
         });
 
-        // 编辑场景模态框
+        // 编辑特效模态框
         $('#myModalDialog2').on('show.bs.modal', function (e) {
             findAllOptions();
             var zIndex = Number($('.modal').css('z-index'));
             $('#myModalDialog2').css("zIndex", zIndex + 1);
             type = $(e.relatedTarget).data("type");
-            if (type == "edtScene") {
+            if (type == "edtSpecial") {
                 id = $(e.relatedTarget).data("id");
-                findScene(id);
+                findSpecial(id);
             }
         });
 

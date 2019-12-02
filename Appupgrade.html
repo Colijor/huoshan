@@ -33,6 +33,15 @@
         <div id="page-inner">
             <div class="row">
                 <div class="col-md-4">
+                    <div class="row" style="margin-top: 0;">
+                        <div class="col-md-6 col-md-offset-3">
+                            <select class="form-control" name="Allclassify" id="Allclassify" onchange="searchApp()">
+                                <option value="" selected>请选择App类型</option>
+                                <option value=0>中间介</option>
+                                <option value=1>播放器</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
                 </div>
@@ -55,6 +64,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>版本号</th>
+                                            <th>APP类型</th>
                                             <th>文件名</th>
                                             <th>上传日期</th>
                                             <th>上传用户</th>
@@ -94,8 +104,17 @@
                     <form>
                         <div class="alert-contents">
                             <div class="form-group form-inline">
-                                <label for="recipient-name" class="control-label">版本号&nbsp;&nbsp;</label>
+                                <label for="recipient-name"
+                                    class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;版本号&nbsp;&nbsp;</label>
                                 <input type="text" class="form-control" id="version" name="version">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recipient-name" class="control-label">APP类型&nbsp;&nbsp;</label>
+                                <select class="form-control" name="appType" id="appType">
+                                    <option class="form-control" value="" selected>请选择APP类型</option>
+                                    <option class="form-control" value=0>中间介</option>
+                                    <option class="form-control" value=1>播放器</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <form class="addAppModalDialog" enctype="multipart/form-data">
@@ -191,14 +210,15 @@
         // 上传APK文件
         let fileUrl = '';
         let fileName = '';
+
         function handleFileSelect() {
             $(".progress").show();
             let f = document.getElementById('file').files[0];
             fileName = f.name;
             // console.log(f);
             let imgSize = f.size;
-            if (imgSize > 1024 * 1024 * 10) {
-                $('.tipText').text("文件不能超过10M");
+            if (imgSize > 1024 * 1024 * 100) {
+                $('.tipText').text("文件不能超过100MB");
                 $('#wangModal').modal('show');
                 return;
             } else {
@@ -212,15 +232,15 @@
                     data: formdata,
                     dataType: "json",
                     cache: false,
-                    contentType: false,//默认: "application/x-www-form-urlencoded" 
-                    processData: false,//设置 processData 选项为 false，防止自动转换数据格式 
+                    contentType: false, //默认: "application/x-www-form-urlencoded" 
+                    processData: false, //设置 processData 选项为 false，防止自动转换数据格式 
                     xhr: function () {
                         myXhr = $.ajaxSettings.xhr();
                         if (myXhr.upload) {
                             myXhr.upload.addEventListener('progress', function (e) {
-                                var loaded = e.loaded;                  //已经上传大小情况 
-                                var total = e.total;                      //附件总大小 
-                                var percent = Math.floor(100 * loaded / total) + "%";     //已经上传的百分比  
+                                var loaded = e.loaded; //已经上传大小情况 
+                                var total = e.total; //附件总大小 
+                                var percent = Math.floor(100 * loaded / total) + "%"; //已经上传的百分比  
                                 // console.log("已经上传了：" + percent);
                                 $("#processBar").css("width", percent);
                                 $("#processBar").text(percent);
@@ -260,7 +280,21 @@
 
         let data = '';
         getPageApp();
-        // 获取分页素材
+
+        function searchApp() {
+            var Allclassify = $("#Allclassify option:selected").val();
+            // console.log(Allclassify);
+            if (Allclassify == '') {
+                data = '';
+                // 搜索全部
+            } else {
+                data = { "type": Allclassify };
+                // 搜索app分类
+            }
+            getPageApp(data);
+        }
+
+        // 获取分页app
         function getPageApp() {
             $.ajax({
                 type: "get",
@@ -274,8 +308,8 @@
                         // console.log(res.data.records);
                         // 调用分页插件
                         $("#myPage").sPage({
-                            page: 1,//当前页码
-                            total: res.data.total,//数据总条数,后台返回
+                            page: 1, //当前页码
+                            total: res.data.total, //数据总条数,后台返回
                             backFun: function (page) {
                                 // console.log("点击分页按钮回调函数，返回当前页码");
                                 if (data == '') {
@@ -296,11 +330,13 @@
                                             $('#appTable tbody').empty();
                                             var appList = res.data.records;
                                             // console.log(appList);
-                                            for (let i = 0; i < appList.length; i++) {
+                                            for (let i = 0; i < appList
+                                                .length; i++) {
                                                 $('#appTable tbody').append(`
                                                 <tr>
                                                     <td>${(i + 1)+(page-1)*10}</td>
                                                     <td>${appList[i].version}</td>
+                                                    <td>${appList[i].type == 0 ? "中间介" : "播放器"}</td>
                                                     <td>${appList[i].name}</td>
                                                     <td>${appList[i].createTime}</td>
                                                     <td>${appList[i].userName}</td>
@@ -327,7 +363,16 @@
             let userName = localStorage.getItem('userName');
             let d = {};
             let t = $('form').serializeArray();
-            t.push({ "name": "url", "value": fileUrl }, { "name": "name", "value": fileName }, { "name": "userName", "value": userName });
+            t.push({
+                "name": "url",
+                "value": fileUrl
+            }, {
+                "name": "name",
+                "value": fileName
+            }, {
+                "name": "userName",
+                "value": userName
+            });
             $.each(t, function () {
                 d[this.name] = this.value;
             });
@@ -336,6 +381,10 @@
             for (let key in d) {
                 if (key == "url" && d[key] == '') {
                     $('.tipText').text("请上传APK文件");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "appType" && d[key] == '') {
+                    $('.tipText').text("请选择app类型");
                     $('#wangModal').modal('show');
                     return;
                 } else if (key == "version" && d[key] == '') {
@@ -353,6 +402,7 @@
                 url: serverIp + "/app/add",
                 data: JSON.stringify({
                     name: d.name,
+                    type: d.appType,
                     version: d.version,
                     userName: d.userName,
                     log: d.log,
@@ -375,18 +425,20 @@
             });
         }
 
-        // 删除素材
+        // 删除app
         $('#appTable tbody').on('click', 'button', function (e) {
             var str = e.target.id;
             var idName = str.slice(0, 6);
             var ID = str.slice(6);
             if (idName == "dltApp") {
-                //删除素材
+                //删除app
                 $.ajax({
                     type: "get",
                     contentType: 'application/json; charset=UTF-8',
                     url: serverIp + "/app/delete",
-                    data: { "id": ID },
+                    data: {
+                        "id": ID
+                    },
                     dataType: "json",
                     success: function (res) {
                         // console.log("删除成功");
