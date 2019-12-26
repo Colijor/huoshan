@@ -517,6 +517,10 @@
                     $('.tipText').text("请输入特效文件名");
                     $('#wangModal').modal('show');
                     return;
+                } else if (key == "fileName" && checkFilename(d[key])){
+                    $('.tipText').text("请输入以数字开头，以.png或.mp4结尾的文件名");
+                    $('#wangModal').modal('show');
+                    return;
                 } else if (key == "freeMode" && d[key] == '') {
                     $('.tipText').text("请选择收费模式");
                     $('#wangModal').modal('show');
@@ -583,6 +587,10 @@
                     return;
                 } else if (key == "fileName2" && d[key] == '') {
                     $('.tipText').text("请上传特效文件名");
+                    $('#wangModal').modal('show');
+                    return;
+                } else if (key == "fileName2" && checkFilename(d[key])){
+                    $('.tipText').text("请输入以数字开头，以.png或.mp4结尾的文件名");
                     $('#wangModal').modal('show');
                     return;
                 } else if (key == "freeMode2" && d[key] == '') {
@@ -710,6 +718,14 @@
             var zIndex = Number($('.modal').css('z-index'));
             $('#wangModal').css("zIndex", zIndex + 1);
         });
+
+        function checkFilename(fileName) {
+            var reg = /\d\.(png|mp4)$/;
+            if (!reg.test(fileName)) {
+                return true;
+            }
+            return false;
+        }
     </script>
 </body>
 

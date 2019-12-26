@@ -207,8 +207,10 @@
         $('#classifyModalDialog').on('show.bs.modal', function (e) {
             type = $(e.relatedTarget).data('type');
             if (type == "addClassify") {
+                $('#exampleModalLabel').text("新增分类");
                 $('#classifyName').val('');
             } else if (type == "edtClassify") {
+                $('#exampleModalLabel').text("编辑分类");
                 id = $(e.relatedTarget).data('id');
                 findClassify(id);
             }

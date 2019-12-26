@@ -241,6 +241,7 @@
         $('#goodsModalDialog').on('show.bs.modal', function (e) {
             type = $(e.relatedTarget).data('type');
             if (type == "addGoods") {
+                $('#exampleModalLabel').text("新增商品");
                 $('#goodsName').val('');
                 $('#goodsNo').val('');
                 $('#goodsSize').val('');
@@ -249,6 +250,7 @@
                 $('#goodsBuy').val('');
                 $('#goodsSell').val('');
             } else if (type == "edtGoods") {
+                $('#exampleModalLabel').text("编辑商品");
                 id = $(e.relatedTarget).data('id');
                 findGoods(id);
             }

@@ -188,8 +188,10 @@
         $('#pgwayModalDialog').on('show.bs.modal', function (e) {
             type = $(e.relatedTarget).data('type');
             if (type == "addWay") {
+                $('#exampleModalLabel').text("新增通道");
                 $('#paWayName').val('');
             } else if (type == "edtWay") {
+                $('#exampleModalLabel').text("编辑通道");
                 id = $(e.relatedTarget).data('id');
                 findPgway(id);
             }

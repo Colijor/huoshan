@@ -36,9 +36,6 @@
                     <div class="row" style="margin-top: 0;">
                         <div class="col-md-6 col-md-offset-3">
                             <select class="form-control" name="Allclassify" id="Allclassify" onchange="searchApp()">
-                                <option value="" selected>请选择App类型</option>
-                                <option value=0>中间介</option>
-                                <option value=1>播放器</option>
                             </select>
                         </div>
                     </div>
@@ -110,10 +107,10 @@
                             </div>
                             <div class="form-group form-inline">
                                 <label for="recipient-name" class="control-label">APP类型&nbsp;&nbsp;</label>
-                                <select class="form-control" name="appType" id="appType">
-                                    <option class="form-control" value="" selected>请选择APP类型</option>
+                                <select class="form-control" name="appClasssfy" id="appClasssfy">
+                                    <!-- <option class="form-control" value="" selected>请选择APP类型</option>
                                     <option class="form-control" value=0>中间介</option>
-                                    <option class="form-control" value=1>播放器</option>
+                                    <option class="form-control" value=1>播放器</option> -->
                                 </select>
                             </div>
                             <div class="form-group">
@@ -207,6 +204,33 @@
         ModalDialog('wangModal');
         ModalDialog('successModal');
 
+        // APP分类8
+        var classifyList = findAllList(8);
+        // 查询下拉选项并渲染
+        function findAllOptions() {
+           // console.log("分类下拉")
+           console.log(classifyList);
+           $('#appClasssfy').empty();
+           $('#appClasssfy').append(`<option class="form-control"  value='' selected>请选择APP类型</option></option>`);
+           for (let i = 0; i < classifyList.length; i++) {
+               $('#appClasssfy').append(`
+               <option class="form-control" value=${classifyList[i].id}>${classifyList[i].name}</option>
+               `);
+           }
+        }
+
+        // 搜索分类下拉选项
+        searchAllclassify();
+        function searchAllclassify() {
+            $('#Allclassify').empty();
+            $('#Allclassify').append(`<option class="form-control"  value='' selected>请选择APP类型</option></option>`);
+            for (let i = 0; i < classifyList.length; i++) {
+                $('#Allclassify').append(`
+                <option class="form-control" value=${classifyList[i].id}>${classifyList[i].name}</option>
+                `);
+            }
+        }
+
         // 上传APK文件
         let fileUrl = '';
         let fileName = '';
@@ -288,7 +312,7 @@
                 data = '';
                 // 搜索全部
             } else {
-                data = { "type": Allclassify };
+                data = { "classify": Allclassify };
                 // 搜索app分类
             }
             getPageApp(data);
@@ -329,14 +353,14 @@
                                         if (res.code === 0) {
                                             $('#appTable tbody').empty();
                                             var appList = res.data.records;
-                                            // console.log(appList);
+                                            console.log(appList);
                                             for (let i = 0; i < appList
                                                 .length; i++) {
                                                 $('#appTable tbody').append(`
                                                 <tr>
                                                     <td>${(i + 1)+(page-1)*10}</td>
                                                     <td>${appList[i].version}</td>
-                                                    <td>${appList[i].type == 0 ? "中间介" : "播放器"}</td>
+                                                    <td>${appList[i].classify}</td>
                                                     <td>${appList[i].name}</td>
                                                     <td>${appList[i].createTime}</td>
                                                     <td>${appList[i].userName}</td>
@@ -383,7 +407,7 @@
                     $('.tipText').text("请上传APK文件");
                     $('#wangModal').modal('show');
                     return;
-                } else if (key == "appType" && d[key] == '') {
+                } else if (key == "appClasssfy" && d[key] == '') {
                     $('.tipText').text("请选择app类型");
                     $('#wangModal').modal('show');
                     return;
@@ -402,7 +426,7 @@
                 url: serverIp + "/app/add",
                 data: JSON.stringify({
                     name: d.name,
-                    type: d.appType,
+                    classify: d.appClasssfy,
                     version: d.version,
                     userName: d.userName,
                     log: d.log,
@@ -448,7 +472,18 @@
                     }
                 })
             }
-        })
+        });
+
+        $('#addAppModalDialog').on('show.bs.modal', function (e) {
+            fileUrl = '';
+            fileName = '';
+            $('#version').val('');
+            $('#appClassify').val('');
+            $('.upFileSuccess').text('');
+            $('#drop .pointer-none >b').text('点击选择文件上传');
+            $('#log').val('');
+            findAllOptions();
+        });
     </script>
 </body>
 

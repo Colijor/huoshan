@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>费用管理</title>
+    <title>APP类型管理</title>
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
     <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
     <!--[if lt IE 9]>
@@ -37,8 +37,8 @@
                 <div class="col-md-6">
                 </div>
                 <div class="col-md-2 align-right">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#freeModalDialog"
-                        data-type="addFree">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#classifyModalDialog"
+                        data-type="addClassify">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增
                     </button>
                 </div>
@@ -50,12 +50,12 @@
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table id="freeList" class="table table-striped table-bordered table-hover">
+                                <table id="classifyList" class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>时长</th>
-                                            <th>价格</th>
+                                            <th>ID</th>
+                                            <th>名称</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
@@ -78,35 +78,29 @@
         <!-- /. PAGE INNER  -->
     </div>
     <!-- /. PAGE WRAPPER  -->
-    <!-- /. freeModalDialog -->
-    <div class="modal fade bs-example-modal-sm" id="freeModalDialog" tabindex="-1" role="dialog"
+    <!-- /. myModalDialog -->
+    <div class="modal fade bs-example-modal-sm" id="classifyModalDialog" tabindex="-1" role="dialog"
         aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">新增费用</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">新增类型</h4>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="alert-contents">
                             <div class="form-group form-inline alert-modal-sm">
-                                <label for="recipient-name" class="control-label">时长&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <input type="text" class="form-control" id="freeTime" name="freeTime">秒
-                            </div>
-                        </div>
-                        <div class="alert-contents">
-                            <div class="form-group form-inline alert-modal-sm">
-                                <label for="recipient-name" class="control-label">价格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <input type="text" class="form-control" id="freePrice" name="freePrice">元
+                                <label for="recipient-name" class="control-label">类型名称&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" id="classifyName" name="classifyName">
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="submitFree()">提交</button>
+                    <button type="button" class="btn btn-primary" onclick="submitClassify()">提交</button>
                 </div>
             </div>
         </div>
@@ -142,17 +136,17 @@
     <script src="assets/js/commont.js"></script>
     <script type="text/javascript">
         // 模态框
-        ModalDialog('freeModalDialog');
+        ModalDialog('classifyModalDialog');
         ModalDialog('wangModal');
 
         let data = '';
-        // 查询分页费用列表
+        // 查询分页类型列表
         findAllclassify();
         function findAllclassify() {
-            // console.log("查询分页费用");
+            // console.log("查询分页类型");
             $.ajax({
                 type: "get",
-                url: serverIp + "/time_price/page",
+                url: serverIp + "/appClassify/page",
                 data: data,
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
@@ -175,25 +169,25 @@
                                 //点击分页按钮回调函数，返回当前页码
                                 $.ajax({
                                     type: "get",
-                                    url: serverIp + "/time_price/page",
+                                    url: serverIp + "/appClassify/page",
                                     data: data,
                                     dataType: "json",
                                     contentType: "application/json;charset=UTF-8",
                                     success: function (res) {
                                         // console.log(res);
                                         if (res.code === 0) {
-                                            $('#freeList tbody').empty();
-                                            var freeList = res.data.records;
-                                            // console.log(freeList);
-                                            for (let i = 0; i < freeList.length; i++) {
-                                                $('#freeList tbody').append(`
+                                            $('#classifyList tbody').empty();
+                                            var classifyList = res.data.records;
+                                            // console.log(classifyList);
+                                            for (let i = 0; i < classifyList.length; i++) {
+                                                $('#classifyList tbody').append(`
                                                 <tr>
                                                     <td>${(i + 1)+(page-1)*10}</td>
-                                                    <td>${freeList[i].time}</td>
-                                                    <td>${freeList[i].price}</td>
+                                                    <td>${classifyList[i].id}</td>
+                                                    <td>${classifyList[i].name}</td>
                                                     <td>
-                                                        <button type="button" class="btn btn-info" data-id="${freeList[i].id}" data-type="edtFree" data-toggle="modal" data-target="#freeModalDialog">编辑</button>
-                                                        <button type="button" class="btn btn-danger" id="dltFree${freeList[i].id}">删除</button>
+                                                        <button type="button" class="btn btn-info" data-id="${classifyList[i].id}" data-type="edtClassify" data-toggle="modal" data-target="#classifyModalDialog">编辑</button>
+                                                        <button type="button" class="btn btn-danger" id="dltClassify${classifyList[i].id}">删除</button>
                                                     </td>
                                                 </tr>`);
                                             }
@@ -209,71 +203,63 @@
 
         let type = '';
         let id = '';
-        // 添加、修改费用
-        $('#freeModalDialog').on('show.bs.modal', function (e) {
+        // 添加、修改类型
+        $('#classifyModalDialog').on('show.bs.modal', function (e) {
             type = $(e.relatedTarget).data('type');
-            if (type == "addFree") {
-                $('#exampleModalLabel').text("新增费用");
-                $('#freeTime').val('');
-                $('#freePrice').val('');
-            } else if (type == "edtFree") {
-                $('#exampleModalLabel').text("编辑费用");
+            if (type == "addClassify") {
+                $('#exampleModalLabel').text("新增APP类型");
+                $('#classifyName').val('');
+            } else if (type == "edtClassify") {
+                $('#exampleModalLabel').text("编辑APP类型");
                 id = $(e.relatedTarget).data('id');
-                findFree(id);
+                findClassify(id);
             }
         })
 
-        // 查询单个费用
-        function findFree(id) {
+        // 查询单个类型
+        function findClassify(id) {
             $.ajax({
                 type: "get",
                 contentType: 'application/json; charset=UTF-8',
-                url: serverIp + "/time_price/get/" + id,
+                url: serverIp + "/appClassify/get/" + id,
                 data: "",
                 dataType: "json",
                 success: function (res) {
                     // console.log(res);
                     if (res.code === 0) {
-                        $('#freeTime').val(res.data.time);
-                        $('#freePrice').val(res.data.price);
+                        $('#classifyName').val(res.data.name);
                     }
                 }
             })
         }
 
-        // 新增、修改费用
-        function submitFree() {
+        // 新增、修改类型
+        function submitClassify() {
             var d = [];
             var t = $('form').serializeArray();
             $.each(t, function () {
                 d[this.name] = this.value;
             })
-            if (d.freeTime == '') {
-                $('.tipText').text("请填写时长");
-                $('#wangModal').modal('show');
-                return;
-            }else if(d.freePrice == ''){
-                $('.tipText').text("请填写价格");
+            if (d.classifyName == '') {
+                $('.tipText').text("请填写类型名称");
                 $('#wangModal').modal('show');
                 return;
             }
-            if (type == "addFree") {
+            if (type == "addClassify") {
                 // console.log("新增");
-                // console.log(d);
                 $.ajax({
                     type: "post",
                     contentType: 'application/json; charset=UTF-8',
-                    url: serverIp + "/time_price/add",
+                    url: serverIp + "/appClassify/add",
                     data: JSON.stringify({
-                        time: d.freeTime,
-                        price: d.freePrice
+                        name: d.classifyName
                     }),
                     dataType: "json",
                     success: function (res) {
                         // console.log(res);
                         if (res.code === 0) {
-                            // console.log("添加费用成功");
-                            $('#freeModalDialog').modal('hide');
+                            // console.log("添加类型成功");
+                            $('#classifyModalDialog').modal('hide');
                             findAllclassify();
                         }
                         if (res.code === -1) {
@@ -282,23 +268,22 @@
                         }
                     }
                 })
-            } else if (type == "edtFree") {
+            } else if (type == "edtClassify") {
                 // console.log("修改");
                 $.ajax({
                     type: "post",
                     contentType: 'application/json; charset=UTF-8',
-                    url: serverIp + "/time_price/update",
+                    url: serverIp + "/appClassify/update",
                     data: JSON.stringify({
                         id: id,
-                        time: d.freeTime,
-                        price: d.freePrice
+                        name: d.classifyName
                     }),
                     dataType: "json",
                     success: function (res) {
                         // console.log(res);
                         if (res.code === 0) {
-                            // console.log("修改费用成功");
-                            $('#freeModalDialog').modal('hide');
+                            // console.log("修改类型成功");
+                            $('#classifyModalDialog').modal('hide');
                             findAllclassify();
                         }
                         if (res.code === -1) {
@@ -311,17 +296,17 @@
         }
 
 
-        // 查询单个、删除费用
-        $('#freeList tbody').on('click', 'button', function (e) {
+        // 查询单个、删除类型
+        $('#classifyList tbody').on('click', 'button', function (e) {
             var str = e.target.id;
-            var idName = str.slice(0, 7);
-            var id = str.slice(7);
-            if (idName == "dltFree") {
-                //删除费用
+            var idName = str.slice(0, 11);
+            var id = str.slice(11);
+            if (idName == "dltClassify") {
+                //删除app类型前，判断该类型是否有app升级数据，有的话不能删除
                 $.ajax({
                     type: "get",
                     contentType: 'application/json; charset=UTF-8',
-                    url: serverIp + "/time_price/delete",
+                    url: serverIp + "/appClassify/delete",
                     data: { "id": id },
                     dataType: "json",
                     success: function (res) {
