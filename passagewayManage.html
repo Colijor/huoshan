@@ -138,9 +138,9 @@
         ModalDialog('pgwayModalDialog');
         ModalDialog('wangModal');
 
-
         // 查询通道分类列表
         findAllpaway();
+
         function findAllpaway() {
             // console.log("查询分页通道");
             $.ajax({
@@ -156,16 +156,25 @@
                         //console.log(res.data.records);
                         // 调用分页插件
                         $("#myPage").sPage({
-                            page: 1,//当前页码
-                            total: res.data.total,//数据总条数,后台返回
+                            page: 1, //当前页码
+                            total: res.data.total, //数据总条数,后台返回
                             backFun: function (page) {
+                                var data = {};
+                                data.current = page;
                                 // console.log("点击分页按钮回调函数，返回当前页码");
                                 //点击分页按钮回调函数，返回当前页码
-                                $('#pgWayList tbody').empty();
-                                var pgWayList = res.data.records;
-                                // console.log(pgWayList);
-                                for (let i = 0; i < pgWayList.length; i++) {
-                                    $('#pgWayList tbody').append(`
+                                $.ajax({
+                                    type: "get",
+                                    url: serverIp + "/channel/page",
+                                    data: data,
+                                    dataType: "json",
+                                    contentType: "application/json;charset=UTF-8",
+                                    success: function (res) {
+                                        $('#pgWayList tbody').empty();
+                                        var pgWayList = res.data.records;
+                                        console.log(pgWayList);
+                                        for (let i = 0; i < pgWayList.length; i++) {
+                                            $('#pgWayList tbody').append(`
                                     <tr>
                                         <td>${(i + 1)+(page-1)*10}</td>
                                         <td>${pgWayList[i].name}</td>
@@ -174,7 +183,10 @@
                                             <button type="button" class="btn btn-danger" id="dltWay${pgWayList[i].id}">删除</button>
                                         </td>
                                     </tr>`);
-                                }
+                                        }
+                                    }
+                                });
+
                             }
                         });
                     }
@@ -288,7 +300,9 @@
                     type: "get",
                     contentType: 'application/json; charset=UTF-8',
                     url: serverIp + "/channel/delete",
-                    data: { "id": id },
+                    data: {
+                        "id": id
+                    },
                     dataType: "json",
                     success: function (res) {
                         if (res.code === 0) {
@@ -303,8 +317,6 @@
                 })
             }
         })
-
-
     </script>
 </body>
 

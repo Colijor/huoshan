@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请输入你要搜索的场景名称或txt文件名" id="searchInput" onkeydown="if(event.keyCode==13)searchScene()">
+                        <input type="text" class="form-control" placeholder="请输入你要搜索的场景名称或配置文件名" id="searchInput" onkeydown="if(event.keyCode==13)searchScene()">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" onclick="searchScene()">搜索</button>
                         </span>
@@ -70,8 +70,8 @@
                                             <th>分类</th>
                                             <th>分类ID</th>
                                             <th>通道数</th>
-                                            <th>窗口数</th>
                                             <th>图片</th>
+                                            <th>配置信息</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
@@ -122,13 +122,6 @@
                                         <select class="form-control" name="pgway" id="pgway">
                                         </select>
                                     </div>
-                                    <div class="form-group form-inline">
-                                        <label for="recipient-name" class="control-label">窗口数量&nbsp;&nbsp;</label>
-                                        <select class="form-control" name="windows" id="windows">
-                                            <option value="1" selected>1</option>
-                                            <option value="2">2</option>
-                                        </select>
-                                    </div>
                                 </div>
                                 <div class="alert-right">
                                     <form id="prizeform" enctype="multipart/form-data">
@@ -147,7 +140,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <!-- <form id="txtform" enctype="multipart/form-data">
+                            <form id="txtform" enctype="multipart/form-data">
                                 <div id="imgPreview2">
                                     <div>配置文件</div>
                                     <div id="prompt2">
@@ -158,7 +151,7 @@
                                             accept=".txt">
                                     </div>
                                 </div>
-                            </form> -->
+                            </form>
                         </div>
                     </form>
                 </div>
@@ -197,13 +190,6 @@
                                         <select class="form-control" name="pgway2" id="pgway2" disabled>
                                         </select>
                                     </div>
-                                    <div class="form-group form-inline">
-                                        <label for="recipient-name" class="control-label">窗口数量&nbsp;&nbsp;</label>
-                                        <select class="form-control" name="windows2" id="windows2">
-                                            <option value="1" selected>1</option>
-                                            <option value="2">2</option>
-                                        </select>
-                                    </div>
                                 </div>
                                 <div class="alert-right">
                                     <form id="prizeform" enctype="multipart/form-data">
@@ -222,7 +208,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <!-- <form id="txtform" enctype="multipart/form-data">
+                            <form id="txtform" enctype="multipart/form-data">
                                 <div id="imgPreview2">
                                     <div>配置文件</div>
                                     <div id="prompt2">
@@ -233,7 +219,7 @@
                                             onchange="uploadfileText2(this)" accept=".txt">
                                     </div>
                                 </div>
-                            </form> -->
+                            </form>
                         </div>
                     </form>
                 </div>
@@ -399,7 +385,7 @@
                                         if (res.code === 0) {
                                             $('#sceneTable tbody').empty();
                                             var sceneList = res.data.records;
-                                            //console.log(sceneList);
+                                            // console.log(sceneList);
                                             for (let i = 0; i < sceneList.length; i++) {
                                                 $('#sceneTable tbody').append(`
                                                     <tr>
@@ -408,10 +394,10 @@
                                                         <td>${sceneList[i].classify}</td>
                                                         <td>${sceneList[i].classifyId}</td>
                                                         <td>${sceneList[i].channel}</td>
-                                                        <td>${sceneList[i].windows}</td>
                                                         <td>
                                                             <img src="${sceneList[i].url}" alt="..." class="img-thumbnail">
                                                         </td>
+                                                        <td>${sceneList[i].config}</td>
                                                         <td>
                                                             <button type="button" class="btn btn-info" data-id="${sceneList[i].id}" data-type="edtScene" data-toggle="modal" data-target="#myModalDialog2">编辑</button>
                                                             <button type="button" class="btn btn-danger" id="dltScene${sceneList[i].id}">删除</button>
@@ -506,12 +492,86 @@
             }
         }
 
+
+        // 上传配置文件
+        function uploadfileText() {
+            let f = document.getElementById('fileTxt').files[0];
+            // console.log(f);
+            let imgSize = f.size;
+            if (imgSize > 1024 * 1024 * 10) {
+                $('.tipText').text("上传图片不能超过10M");
+                $('#wangModal').modal('show');
+                return;
+            } else {
+                let formdata = new FormData();
+                if (f != "") {
+                    formdata.append('file', f);
+                }
+                $.ajax({
+                    type: "post",
+                    url: serverIp + "/scene/uploadConfig",
+                    data: formdata,
+                    dataType: "json",
+                    cache: false,
+                    contentType: false,//默认: "application/x-www-form-urlencoded" 
+                    processData: false,//设置 processData 选项为 false，防止自动转换数据格式 
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("上传配置文件成功");
+                            $('.configTxt').text(res.data);
+                        } else {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            }
+        }
+
+        function uploadfileText2() {
+            let f = document.getElementById('fileTxt2').files[0];
+            // console.log(f);
+            let imgSize = f.size;
+            if (imgSize > 1024 * 1024 * 10) {
+                $('.tipText').text("上传图片不能超过10M");
+                $('#wangModal').modal('show');
+                return;
+            } else {
+                let formdata = new FormData();
+                if (f != "") {
+                    formdata.append('file', f);
+                }
+                $.ajax({
+                    type: "post",
+                    url: serverIp + "/scene/uploadConfig",
+                    data: formdata,
+                    dataType: "json",
+                    cache: false,
+                    contentType: false,//默认: "application/x-www-form-urlencoded" 
+                    processData: false,//设置 processData 选项为 false，防止自动转换数据格式 
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code === 0) {
+                            // console.log("上传配置文件成功");
+                            $('.configTxt2').text(res.data);
+                        } else {
+                            $('.tipText').text(res.message);
+                            $('#wangModal').modal('show');
+                        }
+                    }
+                })
+            }
+        }
+
         function submitScene() {
             var d = {};
             var t = $('form').serializeArray();
             var picUrl = $('#img3').attr('src');
+            var config = $('.configTxt').text();
             //console.log(picUrl);
-            t.push({ "name": "url", "value": picUrl });
+            //console.log(config);
+            t.push({ "name": "url", "value": picUrl }, { "name": "config", "value": config });
             $.each(t, function () {
                 d[this.name] = this.value;
             });
@@ -529,6 +589,10 @@
                     $('.tipText').text("请选择所属分类");
                     $('#wangModal').modal('show');
                     return;
+                } else if (key == "config" && d[key] == '') {
+                    $('.tipText').text("请上传配置文件");
+                    $('#wangModal').modal('show');
+                    return;
                 }
             }
             if (type == "addScene") {
@@ -540,7 +604,7 @@
                         name: d.name,
                         channel: d.pgway,
                         url: d.url,
-                        windows: d.windows
+                        config: d.config
                     }),
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
@@ -566,8 +630,10 @@
             var d = {};
             var t = $('form').serializeArray();
             var picUrl = $('#previewImg').attr('src');
+            var config = $('.configTxt2').text();
             //console.log(picUrl);
-            t.push({ "name": "url", "value": picUrl });
+            //console.log(config);
+            t.push({ "name": "url", "value": picUrl }, { "name": "config", "value": config });
             $.each(t, function () {
                 d[this.name] = this.value;
             });
@@ -585,6 +651,10 @@
                     $('.tipText').text("请选择所属分类");
                     $('#wangModal').modal('show');
                     return;
+                } else if (key == "config2" && d[key] == '') {
+                    $('.tipText').text("请上传配置文件");
+                    $('#wangModal').modal('show');
+                    return;
                 }
             }
             if (type == "edtScene") {
@@ -598,7 +668,7 @@
                         name: d.name2,
                         channel: d.pgway2,
                         url: d.url,
-                        windows: d.windows2
+                        config: d.config2
                     }),
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
@@ -648,13 +718,13 @@
                 data: "",
                 dataType: "json",
                 success: function (res) {
-                    console.log("查询单个素材");
-                    console.log(res);
+                    //console.log("查询单个素材");
+                    //console.log(res);
                     if (res.code === 0) {
                         $('#name2').val(res.data.name);
                         $("#classify2 option[value='"+res.data.classify+"']").attr("selected", "selected");
                         $("#pgway2 option[value='" + res.data.channel + "']").attr("selected", "selected");
-                        $("#windows2").val(res.data.windows);
+                        $('.configTxt2').text(res.data.config);
                         $('.img2').css("display", "none");
                         $('#previewImg')[0].src = res.data.url;
                         $('#previewImg').css("display", "block");
@@ -673,7 +743,7 @@
                 $('#name').val('');
                 $('#classify').val('');
                 $('#pgway').val('');
-                $('#windows').val('1');
+                $('.configTxt').text('');
                 $('#img2').css("display", "block");
                 $('#img3')[0].src = '';
                 $('#img3').css("display", "none");

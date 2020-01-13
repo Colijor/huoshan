@@ -189,7 +189,6 @@
                                 <tr>
                                     <th>No</th>
                                     <th>职务名称</th>
-                                    <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -205,7 +204,7 @@
             </div>
         </div>
     </div>
-    <!-- 新增、修改职务 -->
+    <!-- 新增、不能修改职务 -->
     <div class="modal fade" id="t1-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
         data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
@@ -226,7 +225,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="addandUpdateRole()">确定</button>
+                    <button type="button" class="btn btn-primary" onclick="addRole()">确定</button>
                 </div>
             </div>
         </div>
@@ -573,39 +572,12 @@
                 <tr>
                     <td>${i+1}</td>
                     <td>${data[i].name}</td>
-                    <td>
-                        <button type="button" class="btn btn-info" data-id="${data[i].id}" data-toggle="modal"
-                            data-target="#t1-2" data-type="updateRole">修改</button>
-                        <button type="button" class="btn btn-danger" id="dltRole${data[i].id}">删除</button>
-                    </td>
                 <tr>`);
             }
         }
 
-        // 查询单个、删除职务
-        $('#t1-1 table tbody').on('click', 'button', function (e) {
-            var str = e.target.id;
-            var idName = str.slice(0, 7);
-            var id = str.slice(7);
-            if (idName == "dltRole") {
-                //删除职务
-                $.ajax({
-                    type: "get",
-                    contentType: 'application/json; charset=UTF-8',
-                    url: serverIp + "/role/delete",
-                    data: { "id": id },
-                    dataType: "json",
-                    success: function (res) {
-                        // console.log("删除成功");
-                        findRoleList();
-                        window.location.reload(true);
-                    }
-                })
-            }
-        })
-
         // 新增、修改职务
-        function addandUpdateRole() {
+        function addRole() {
             var Rolename = $('#Rolename').val();
             if (Rolename != '') {
                 if (type == "addRole") {
@@ -615,23 +587,6 @@
                         contentType: 'application/json; charset=UTF-8',
                         url: serverIp + "/role/add",
                         data: JSON.stringify({ name: Rolename }),
-                        dataType: "json",
-                        success: function (res) {
-                            // console.log(res);
-                            if (res.code === 0) {
-                                $('#t1-2').modal('hide');
-                                findRoleList();
-                                window.location.reload(true);
-                            }
-                        }
-                    })
-                } else if (type == "updateRole") {
-                    // console.log("修改");
-                    $.ajax({
-                        type: "post",
-                        contentType: 'application/json; charset=UTF-8',
-                        url: serverIp + "/role/update",
-                        data: JSON.stringify({ id: id, name: Rolename }),
                         dataType: "json",
                         success: function (res) {
                             // console.log(res);
@@ -654,12 +609,7 @@
             $('#t1-2').css("zIndex", zIndex + 1);
             // console.log($(e.relatedTarget).data("type"));
             type = $(e.relatedTarget).data("type");
-            if (type == "updateRole") {
-                $('#exampleModalLabel1-1').text("修改职务");
-                id = $(e.relatedTarget).data("id");
-                // console.log(id);
-                findRole(id);
-            } else if (type == "addRole") {
+            if (type == "addRole") {
                 $('#exampleModalLabel1-1').text("新增职务");
                 $('#Rolename').val('');
             }
